@@ -5,9 +5,12 @@ const fs = require('fs')
 const router = Router()
 
 const cliente = require('../model/fcweb')
+const FileWrite = require('../lib/write_tel')
 
-router.get('/', (req, res) => {
-    res.send('tudo ok')
+router.get('/', async (req, res) => {
+    const tel = req.body.tel
+    const response = FileWrite(tel) 
+    res.send(response)
 })
 
 router.post('/send/email', function (req, res) {
