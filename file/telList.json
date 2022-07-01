@@ -1,0 +1,74 @@
+[
+    {
+        "id": 9428,
+        "vctoCD": "2022-07-01T03:00:00.000Z",
+        "tipoCD": "A1PJ",
+        "telefone": "16991051228",
+        "titulo": "CM MODA EIRELI",
+        "titulo_doc": "24961763000167"
+    },
+    {
+        "id": 9435,
+        "vctoCD": "2022-07-01T03:00:00.000Z",
+        "tipoCD": "A1PJ",
+        "telefone": "18997066300",
+        "titulo": "MECANICA FURLAN MARINGA LTDA",
+        "titulo_doc": "42077745000107"
+    },
+    {
+        "id": 9436,
+        "vctoCD": "2022-07-01T03:00:00.000Z",
+        "tipoCD": "A1PJ",
+        "telefone": "16981340279",
+        "titulo": "CLOVIS ALMEIDA DE SOUZA 02025303882",
+        "titulo_doc": "28055919000100"
+    },
+    {
+        "id": 9455,
+        "vctoCD": "2022-07-01T03:00:00.000Z",
+        "tipoCD": "A1PJ",
+        "telefone": "16997930329",
+        "titulo": "DOCARMO LOCADORA DE VEICULOS LTDA ",
+        "titulo_doc": "10524185000197"
+    },
+    {
+        "id": 9458,
+        "vctoCD": "2022-07-01T03:00:00.000Z",
+        "tipoCD": "A1PJ",
+        "telefone": "16993160026",
+        "titulo": "AMBIENTE LOCADORA DE VEICULOS S.A.",
+        "titulo_doc": "37500450000153"
+    },
+    {
+        "id": 9459,
+        "vctoCD": "2022-07-01T03:00:00.000Z",
+        "tipoCD": "A1PJ",
+        "telefone": "16991183749",
+        "titulo": "BETOLOG TRANSPORTES LTDA",
+        "titulo_doc": "37502793000157"
+    },
+    {
+        "id": 9464,
+        "vctoCD": "2022-07-01T03:00:00.000Z",
+        "tipoCD": "A1PF",
+        "telefone": "16982509536",
+        "titulo": "GRAZIELE LUCIO NOVAIS",
+        "titulo_doc": "22846146802"
+    },
+    {
+        "id": 9465,
+        "vctoCD": "2022-07-01T03:00:00.000Z",
+        "tipoCD": "A1PF",
+        "telefone": "16982509536",
+        "titulo": "CAINA DE SOUZA D AJUDA",
+        "titulo_doc": "23280811856"
+    },
+    {
+        "id": 9466,
+        "vctoCD": "2022-07-01T03:00:00.000Z",
+        "tipoCD": "A1PJ",
+        "telefone": "16988230863",
+        "titulo": "LILIAN CARLA MANCILHA SCANDIUZZI",
+        "titulo_doc": "26752875000133"
+    }
+]

@@ -5,18 +5,19 @@ const fs = require('fs')
 const router = Router()
 
 const cliente = require('../model/fcweb')
-const FileWrite = require('../lib/write_tel')
+const enviarSms = require('../lib/enviarSms')
+
+// const FileWrite = require('../lib/write_tel')
+
 
 router.get('/', async (req, res) => {
-    const tel = req.body.tel
-    const response = FileWrite(tel) 
-    res.send(response)
+    const lista = req.body
+    const response = await enviarSms(lista)
+    res.json(response)
 })
 
 router.post('/send/email', function (req, res) {
 
-    fs.readFile('tel.json', (err, arquivo) => {
-    })
 
     let email = req.body.email;
 
