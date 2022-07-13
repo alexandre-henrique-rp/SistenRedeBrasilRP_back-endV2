@@ -1,8 +1,8 @@
 require('dotenv').config()
-const { Router, response } = require('express')
+const { Router } = require('express')
 
 
-const router = Router()
+const router1 = Router()
 
 const cliente = require('../model/fcweb')
 const enviarSms = require('../lib/enviarSms')
@@ -12,7 +12,7 @@ const Agr = require('../model/agr')
 
 // const FileWrite = require('../lib/write_tel')
 
-router.post('/login', async (req, res) => {
+router1.post('/login', async (req, res) => {
 
     const user = await Agr.findOne({
         attributes: ['idagr', 'usuario', 'senha', 'nome', 'c_unidade', 'polo', 'bloc_filial', 'bloco_de_notas', 'bt_producao', 'bt_comissao', 'tabela_voucher', 'ver_t_custo', 'bloc_vl_comicao', 'bloquearINT',
@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
     });
 });
 
-router.get('/send/msg', async (req, res) => {
+router1.get('/send/msg', async (req, res) => {
 
     const lista = req.body
 
@@ -65,8 +65,8 @@ router.get('/send/msg', async (req, res) => {
     res.json(response2)
 })
 
-router.get('/send', function (req, res) {
+router1.get('/send', function (req, res) {
     res.json('ola')
 });
 
-module.exports = router
+module.exports = router1

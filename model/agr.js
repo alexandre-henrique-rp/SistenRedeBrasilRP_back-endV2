@@ -35,14 +35,16 @@ const Agr = database.define('usuariosfcw', { //nome da tabela a ser conectada
     "A1PJ": Sequelize.TEXT,
     "A3PJ-12": Sequelize.TEXT,
     "A3PJ-24": Sequelize.TEXT,
-   " A3PJ": Sequelize.TEXT,
-   " A3PJ-HSM-1ano": Sequelize.TEXT,
+    "A3PJ": Sequelize.TEXT,
+    "A3PJ-HSM-1ano": Sequelize.TEXT,
     "bloc_nuvem": Sequelize.TEXT,
     "verComissaoParceiro": Sequelize.TEXT,
+    "senha_has": Sequelize.TEXT,
+
 
 }, { freezeTableName: true }); // função para conectar tebela ja criada
 
 //criar ou sicronizar a tabela
-// Cliente.sync(); 
+// Agr.sync();
 
 module.exports = Agr;
