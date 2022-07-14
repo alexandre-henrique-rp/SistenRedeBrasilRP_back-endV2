@@ -2,16 +2,40 @@ require('dotenv').config()
 const { Router } = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const sequelize = require('sequelize')
 
 
 const router2 = Router()
 
 const Agr = require('../model/agr')
 const Agrv = require('../model/agrv')
+const SetPolo = require('../lib/setPolo')
 
 
 // ---------------------------------------------------------------------------
 
+router2.get('/test', async (req, res) => {
+
+    const response = await SetPolo();
+
+    // return res.status(200).json({
+    //     message: 'Agr cadastrado com sucesso!',
+    //     hash: response.data
+    // });
+    console.log(response)
+    res.json(response)
+    
+});
+router2.get('/list/user/max/polo', async (req, res) => {
+
+    const agrv = await Agrv.findAll({
+        attributes: ['numeropolo'],
+    })
+
+
+    res.json(agrv)
+
+});
 router2.post('/cadastrar/agr', async (req, res) => {
     //$2a$08$dNS/DOXvNqOvACe5l1ZCuOyMeIN9BvURm.TEmzjoafdeBIxACCb0i
     const password = await bcrypt.hash('123456', 8);
@@ -25,15 +49,41 @@ router2.post('/cadastrar/agr', async (req, res) => {
 });
 
 router2.post('/cadastrar/agrv', async (req, res) => {
-    const password = await bcrypt.hash('123456', 8);
 
-    console.log(password);
-
-    return res.status(200).json({
-        message: 'Parceiro de revenda cadastrado com sucesso!',
-        hash: password
+    const user = Agrv.findOne({
+        attributes: ['idagrv', 'nome', 'email', 'email2', 'senha', 'numeropolo'],
+        where: {
+            email: req.body.email,
+            senha: req.body.senha,
+            email2: req.body.senha
+        }
     });
+    var dados = req.body;
+
+    dados.email2 = req.body.senha
+    dados.senha = await bcrypt.hash(dados.senha, 8);
+
+    await Agrv.create(dados)
+        .then(() => {
+            console.log(dados)
+            console.log(user)
+            return res.status(200).json({
+                message: 'Parceiro de revenda cadastrado com sucesso!',
+            });
+        }).catch(err => {
+            return res.status(400).json({
+                error: true,
+                message: 'Erro: Não foi possível cadastrar o Parceiro!'
+            });
+        });
+
 });
+
+
+
+// ----------------------------------------------------------------------------
+// login
+
 
 router2.post('/login/agr', async (req, res) => {
 
