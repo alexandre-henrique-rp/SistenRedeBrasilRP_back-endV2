@@ -4,10 +4,8 @@ const { Router } = require('express')
 
 const router1 = Router()
 
-const cliente = require('../model/fcweb')
 const enviarSms = require('../lib/enviarSms')
 const enviarEmail = require('../lib/enviarEmail')
-const writeEmail = require('../lib/writeEmail')
 const Agr = require('../model/agr')
 
 // const FileWrite = require('../lib/write_tel')
