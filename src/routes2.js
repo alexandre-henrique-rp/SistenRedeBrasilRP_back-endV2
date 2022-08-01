@@ -12,22 +12,17 @@ const Agr = require('../model/agr')
 const Agrv = require('../model/agrv')
 const SetPolo = require('../lib/setPolo')
 const CalcPolo = require('../lib/calcPolo')
+const RelatorioPricipal = require('../lib/relatorioAgrv')
 
 
 // ---------------------------------------------------------------------------
 
-// router2.get('/test', async (req, res) => {
+router2.get('/test/func', async (req, res) => {
 
-//     var dados = req.body;
+    const response = await RelatorioPricipal()
+    res.json(response);
 
-//     dados.senha = await bcrypt.hash(dados.senha, 8);
-//     console.log(dados.senha);
-
-//     return res.json({
-//         senha: dados.senha
-//     });
-
-// });
+});
 
 router2.get('/list/user/max/polo', async (req, res) => {
 
