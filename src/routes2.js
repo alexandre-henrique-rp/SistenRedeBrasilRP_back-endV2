@@ -16,18 +16,18 @@ const CalcPolo = require('../lib/calcPolo')
 
 // ---------------------------------------------------------------------------
 
-router2.get('/test', async (req, res) => {
+// router2.get('/test', async (req, res) => {
 
-    var dados = req.body;
+//     var dados = req.body;
 
-    dados.senha = await bcrypt.hash(dados.senha, 8);
-    console.log(dados.senha);
+//     dados.senha = await bcrypt.hash(dados.senha, 8);
+//     console.log(dados.senha);
 
-    return res.json({
-        senha: dados.senha
-    });
+//     return res.json({
+//         senha: dados.senha
+//     });
 
-});
+// });
 
 router2.get('/list/user/max/polo', async (req, res) => {
 
@@ -163,13 +163,14 @@ router2.post('/login/agr', async (req, res) => {
 
     if (agr === null) { //verifica se o usuario existe
         return res.status(400).json({
+            
             message: 'Erro: Usuário ou senha incorreto!'
         });
     };
 
     const match = await bcrypt.compare(req.body.senha, agr.senha_has);
     if (!match) {
-        return res.status(400).json({
+        return res.status(400).end({
             message: 'Erro: Usuário ou senha incorreto!'
         });
     }

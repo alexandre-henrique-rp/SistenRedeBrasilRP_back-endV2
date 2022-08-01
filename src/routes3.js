@@ -11,15 +11,10 @@ const router3 = Router()
 
 // ---------------------------------------------------------------------------
 
-// router3.get('/test', async (req, res) => {
+router3.get('/test', eAdmin, async (req, res) => {
 
-//     const response = await SetPolo();
-//     const data = await CalcPolo(response)
-//     console.log(data)
-
-//     res.json(data)
-   
-// });
+    res.json('deu certo')
+});
 
 
 
