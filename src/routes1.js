@@ -1,14 +1,16 @@
-require('dotenv').config()
-const { Router } = require('express')
-const { eAdmin } = require('../middlewares/auth');
+import 'dotenv/config'
+import { Router } from 'express';
+import { eAdmin } from '../middlewares/auth.js';
+import { Op } from "sequelize";
 
+
+
+import enviarSms from '../lib/enviarSms.js';
+import enviarEmail from '../lib/enviarEmail.js';
+import Agrv from '../model/agrv.js';
+import Client from '../model/fcweb.js';
 
 const router1 = Router()
-
-const enviarSms = require('../lib/enviarSms')
-const enviarEmail = require('../lib/enviarEmail')
-const Agrv = require('../model/agrv')
-
 
 
 router1.get('/listar/agrv', async (req, res) => {
@@ -21,22 +23,28 @@ router1.get('/listar/agrv', async (req, res) => {
     })
         .then((agrv) => {
             res.json(agrv)
-            console.log(agrv)
+           
         })
         .catch((err) => {
             console.log(err)
         })
 });
 
-router1.get('/listar/relatorio/agrv/:id', async (req, res) => {
-    const agrv = await Agrv.findAll({
-        attributes: ['idagrv', 'nome'],
-       
+router1.get('/listar/relatorio/agrv/:polo', async (req, res) => {
+
+    const agrv = await Client.findAll({
+        attributes: ['id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro'],
+        where: {
+            unidade: req.params.polo,
+            andamento: {
+                [Op.or]: ['EMITIDO', 'APROVADO']
+            }
+        }
 
     })
         .then((agrv) => {
             res.json(agrv)
-            console.log(agrv)
+            
         })
         .catch((err) => {
             console.log(err)

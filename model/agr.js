@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const database = require('../src/db');
+import Sequelize from 'sequelize';
+import database from '../src/db.js';
 
 const Agr = database.define('usuariosfcw', { //nome da tabela a ser conectada
     "idagr": {

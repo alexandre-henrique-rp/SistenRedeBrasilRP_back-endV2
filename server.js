@@ -1,8 +1,8 @@
-const express = require('express');
-const routes1 = require('./src/routes1');
-const routes2 = require('./src/routes2');
-const routes3 = require('./src/routes3');
-const cors = require('cors');
+import express from 'express';
+import routes1 from './src/routes1.js';
+import routes2 from './src/routes2.js';
+import routes3 from './src/routes3.js';
+import cors from 'cors';
 
 const app = express();
 

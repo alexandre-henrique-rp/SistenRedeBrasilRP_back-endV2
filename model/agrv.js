@@ -1,6 +1,5 @@
-require('dotenv').config();
-const Sequelize = require('sequelize');
-const database = require('../src/db');
+import Sequelize from 'sequelize';
+import database from '../src/db.js';
 
 const Agrv = database.define('AGRV', {
      idagrv: {

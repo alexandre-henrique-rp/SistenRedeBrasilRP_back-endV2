@@ -1,6 +1,6 @@
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
-const { promisify } = require('util');
+import 'dotenv/config';
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 
 module.exports = {
     eAdmin: async function (req, res, next) {

@@ -1,26 +1,26 @@
-require('dotenv').config()
-const { Router } = require('express')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const { eAdmin } = require('../middlewares/auth');
+import 'dotenv/config'
+import { Router } from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { eAdmin } from '../middlewares/auth.js';
 
-
+import Agr from '../model/agr.js';
+import Agrv from '../model/agrv.js';
+import SetPolo from '../lib/setPolo.js';
+import CalcPolo from '../lib/calcPolo.js';
+import RelatorioPricipal from '../lib/relatorioAgrv.js';
+import Consulta from '../lib/consltaClientsAgrv.js';
 
 const router2 = Router()
-
-const Agr = require('../model/agr')
-const Agrv = require('../model/agrv')
-const SetPolo = require('../lib/setPolo')
-const CalcPolo = require('../lib/calcPolo')
-const RelatorioPricipal = require('../lib/relatorioAgrv')
-
 
 // ---------------------------------------------------------------------------
 
 router2.get('/test/func', async (req, res) => {
 
-    const response = await RelatorioPricipal()
-    res.json(response);
+    const response = await RelatorioPricipal();
+    const resposta = await Consulta(response);
+    
+    res.json(resposta);
 
 });
 
@@ -88,6 +88,7 @@ router2.post('/cadastrar/agr', async (req, res) => {
 
 });
 
+
 router2.post('/cadastrar/agrv', async (req, res) => {
 
     const response = await SetPolo();
@@ -96,26 +97,26 @@ router2.post('/cadastrar/agrv', async (req, res) => {
     const user = await Agrv.findOne({
         attributes: ['idagrv', 'nome', 'cpf', 'nascimento', 'rg', 'logradouro', 'numero', 'complemento', 'bairro', 'cep', 'municipio', 'uf', 'whatsapp', 'chavepix', 'tipopix', 'numeropolo', 'a1pj_12m', 'a3pj_36m', 'a1pf_12m', 'a3pf_36m'],
         where: {
-            email: req.body.email,
-            senha: req.body.senha,
-            nome: req.body.nome,
-            whatsapp: req.body.whatsapp,
-            cpf: req.body.cpf,
-            nascimento: req.body.nascimento,
-            rg: req.body.rg,
-            logradouro: req.body.logradouro,
-            numero: req.body.numero,
-            complemento: req.body.complemento,
-            bairro: req.body.bairro,
-            cep: req.body.cep,
-            municipio: req.body.municipio,
-            uf: req.body.uf,
-            chavepix: req.body.chavepix,
-            tipopix: req.body.tipopix,
-            a1pj_12m: req.body.A1PJ,
-            a3pj_36m: req.body.A3PJ,
-            a1pf_12m: req.body.A1PF,
-            a3pf_36m: req.body.A3PF
+            // email: req.body.email,
+            // senha: req.body.senha,
+            // nome: req.body.nome,
+            // whatsapp: req.body.whatsapp,
+            // cpf: req.body.cpf,
+            // nascimento: req.body.nascimento,
+            // rg: req.body.rg,
+            // logradouro: req.body.logradouro,
+            // numero: req.body.numero,
+            // complemento: req.body.complemento,
+            // bairro: req.body.bairro,
+            // cep: req.body.cep,
+            // municipio: req.body.municipio,
+            // uf: req.body.uf,
+            // chavepix: req.body.chavepix,
+            // tipopix: req.body.tipopix,
+            // a1pj_12m: req.body.A1PJ,
+            // a3pj_36m: req.body.A3PJ,
+            // a1pf_12m: req.body.A1PF,
+            // a3pf_36m: req.body.A3PF
         }
     });
 

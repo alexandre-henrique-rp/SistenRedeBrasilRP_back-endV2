@@ -1,6 +1,7 @@
-require('dotenv').config()
-const { Router } = require('express')
-const { eAdmin } = require('../middlewares/auth');
+import 'dotenv/config'
+
+import { Router } from 'express';
+import { eAdmin } from '../middlewares/auth.js';
 
 
 
