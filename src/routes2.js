@@ -9,7 +9,7 @@ import Agrv from '../model/agrv.js';
 import SetPolo from '../lib/setPolo.js';
 import CalcPolo from '../lib/calcPolo.js';
 import RelatorioPricipal from '../lib/relatorioAgrv.js';
-import Consulta from '../lib/consltaClientsAgrv.js';
+import ConsltaClientsAgrv from '../lib/consltaClientsAgrv.js';
 
 const router2 = Router()
 
@@ -17,10 +17,15 @@ const router2 = Router()
 
 router2.get('/test/func', async (req, res) => {
 
-    const response = await RelatorioPricipal();
-    const resposta = await Consulta(response);
-    
-    res.json(resposta);
+    try {
+        const response = await RelatorioPricipal();
+        const resposta = await ConsltaClientsAgrv(response);
+
+        res.send(resposta);
+    } catch (error) {
+
+        res.status(400).send('Deu Ruim')
+    }
 
 });
 
@@ -159,7 +164,7 @@ router2.post('/login/agr', async (req, res) => {
 
     if (agr === null) { //verifica se o usuario existe
         return res.status(400).json({
-            
+
             message: 'Erro: Usuário ou senha incorreto!'
         });
     };
