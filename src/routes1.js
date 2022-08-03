@@ -71,4 +71,4 @@ router1.get('/itsallok', eAdmin, async (req, res) => {
 });
 
 
-module.exports = router1
+export default router1

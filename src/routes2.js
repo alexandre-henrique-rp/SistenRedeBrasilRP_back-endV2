@@ -210,4 +210,4 @@ router2.post('/login/agr', async (req, res) => {
 
 
 
-module.exports = router2
+export default router2

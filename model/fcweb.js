@@ -74,4 +74,4 @@ const Fcweb = database.define('fcweb', { //nome da tabela a ser conectada
 //criar ou sicronizar a tabela
 // Cliente.sync(); 
 
-module.exports = Fcweb;
+export default Fcweb;

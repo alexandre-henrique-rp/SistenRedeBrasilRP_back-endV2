@@ -35,4 +35,4 @@ const Contador = database.define('parceiro', { //nome da tabela a ser conectada
 //criar ou sicronizar a tabela
 // Contador.sync(); 
 
-module.exports = Contador;
+export default Contador;

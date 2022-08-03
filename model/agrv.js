@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
-import database from '../src/db.js';
+import DataBese from '../src/db.js';
 
-const Agrv = database.define('AGRV', {
+const Agrv = DataBese.define('AGRV', {
      idagrv: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -51,5 +51,5 @@ const Agrv = database.define('AGRV', {
 //criar a tabela
 // User.sync();
 
-module.exports = Agrv;
+export default Agrv;
 

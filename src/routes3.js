@@ -20,4 +20,4 @@ router3.get('/test', eAdmin, async (req, res) => {
 
 
 
-module.exports = router3
+export default router3

@@ -47,4 +47,4 @@ const Agr = database.define('usuariosfcw', { //nome da tabela a ser conectada
 //criar ou sicronizar a tabela
 // Agr.sync();
 
-module.exports = Agr;
+export default Agr;
