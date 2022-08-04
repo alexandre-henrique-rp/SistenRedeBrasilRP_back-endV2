@@ -10,6 +10,7 @@ import SetPolo from '../lib/setPolo.js';
 import CalcPolo from '../lib/calcPolo.js';
 import RelatorioPricipal from '../lib/relatorioAgrv.js';
 import ConsltaClientsAgrv from '../lib/consltaClientsAgrv.js';
+import Metric from '../lib/metric.js';
 
 const router2 = Router()
 
@@ -20,8 +21,9 @@ router2.get('/test/func', async (req, res) => {
     try {
         const response = await RelatorioPricipal();
         const resposta = await ConsltaClientsAgrv(response);
+        const metricas = await Metric(resposta)
 
-        res.send(resposta);
+        res.send(metricas);
     } catch (error) {
 
         res.status(400).send('Deu Ruim')
