@@ -10,7 +10,7 @@ import SetPolo from '../lib/agrv/setPolo.js';
 import CalcPolo from '../lib/calcPolo.js';
 import RelatorioPricipal from '../lib/agrv/relatorioAgrv.js';
 import ConsltaClientsAgrv from '../lib/agrv/consltaClientsAgrv.js';
-import Metric from '../lib/agrv/metric';
+import RelatRevend from '../lib/agrv/relatrevenda.js';
 
 const router2 = Router()
 
@@ -127,7 +127,7 @@ router2.get('/faturamento/agrv', async (req, res) => {
     try {
         const agentRevenda = await RelatorioPricipal();
         const relatoRevenda = await ConsltaClientsAgrv(agentRevenda);
-        const fature = await Metric(relatoRevenda)
+        const fature = await RelatRevend(relatoRevenda)
         res.send(fature);
     } catch (error) {
         res.status(400).send('Deu Ruim')
