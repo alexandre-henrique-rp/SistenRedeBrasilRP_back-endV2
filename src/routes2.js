@@ -27,11 +27,12 @@ router2.post('/cadastrar/agrv', async (req, res) => {
     const polo = await CalcPolo(response);
 
     const user = await Agrv.findOne({
-        attributes: ['idagrv', 'nome', 'cpf', 'nascimento', 'rg', 'logradouro', 'numero', 'complemento', 'bairro', 'cep', 'municipio', 'uf', 'whatsapp', 'chavepix', 'tipopix', 'numeropolo', 'a1pj_12m', 'a3pj_36m', 'a1pf_12m', 'a3pf_36m', 'nomepolo', 'ufpolo'],
+        attributes: ['idagrv', 'nome', 'cpf', 'nascimento', 'rg', 'logradouro', 'numero', 'complemento', 'bairro', 'cep', 'municipio', 'uf', 'whatsapp', 'chavepix', 'tipopix', 'numeropolo', 'a1pj_12m', 'a3pj_36m', 'a1pf_12m', 'a3pf_36m', 'nomepolo', 'ufpolo','permissaoacesso'],
     });
 
     var dados = req.body;
 
+    dados.permissaoacesso = 
     dados.nomepolo = req.body.municipio;
     dados.ufpolo = req.body.uf;
     dados.painel_agrv = 1;
@@ -57,10 +58,9 @@ router2.post('/cadastrar/agrv', async (req, res) => {
 
 router2.get('/listar/agrv', async (req, res) => {
     const agrv = await Agrv.findAll({
-        attributes: ['idagrv', 'nome', 'numeropolo'],
+        attributes: ['idagrv', 'nome', 'numeropolo', 'permissaoacesso'],
         where: {
-            painel_agrv: 1,
-            permissaoacesso: 'PERMITIDO'
+            painel_agrv: 1
         }
     })
         .then((agrv) => {
@@ -70,6 +70,31 @@ router2.get('/listar/agrv', async (req, res) => {
             console.log(err)
         })
 });
+
+router2.put('/update/agrv/:id', async (req, res) => {
+    var dados = req.body;
+    console.log(dados)
+
+    const agrv = await Agrv.update(dados, {
+        attributes: [
+            'idagrv', 'nome', 'cpf', 'nascimento', 'rg', 'logradouro', 'numero', 'complemento', 'bairro', 'cep', 'municipio', 'uf', 'whatsapp', 'chavepix', 'tipopix', 'numeropolo', 'a1pj_12m', 'a3pj_36m', 'a1pf_12m', 'a3pf_36m', 'nomepolo', 'ufpolo', 'permissaoacesso'
+        ],
+        where: {
+            idagrv: req.params.id
+        }
+    })
+        .then((agrv) => {
+            return res.json({
+                message: 'Revendedor atualizado com sucesso!'
+            });
+        })
+        .catch((err) => {
+            return res.status(400).json({
+                message: 'Erro: Não foi possível atualizar o Revendedor!'
+            });
+        })
+});
+
 
 router2.get('/list/user/max/polo', async (req, res) => {
     const agrv = await Agrv.findAll({

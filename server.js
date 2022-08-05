@@ -13,6 +13,7 @@ app.use(routes1)
 app.use(routes2)
 app.use(routes3)
 
+
 app.listen(process.env.PORT || 3050, function () {
     console.log('🚀🚀🤖 servidor em execução 🤖🚀🚀')
 });
