@@ -126,20 +126,17 @@ router2.get('/listar/relatorio/agrv/:polo', async (req, res) => {
         })
 });
 
-router2.get('/listar/clientes/agrv/:polo', eAdmin, async (req, res) => {
+router2.get('/listar/clientes/agrv/:polo', async (req, res) => {
 
-    const agrv = await Fcweb.findAll({
+    const clientes = await Fcweb.findAll({
         attributes: ['id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro'],
         where: {
             unidade: req.params.polo,
             scp: "A PAGAR",
-            andamento: {
-                [Op.or]: ['EMITIDO', 'APROVADO']
-            }
         }
     })
-        .then((agrv) => {
-            res.json(agrv)
+        .then((clientes) => {
+            res.json(clientes)
 
         })
         .catch((err) => {
@@ -155,7 +152,7 @@ router2.get('/faturamento/agrv', async (req, res) => {
         const fature = await RelatRevend(relatoRevenda)
         res.send(fature);
     } catch (error) {
-        res.status(400).send('Deu Ruim')
+        res.status(400).send('Deu Ruim de vez')
     }
 });
 
