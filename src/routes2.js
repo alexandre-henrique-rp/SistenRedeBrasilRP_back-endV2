@@ -58,13 +58,16 @@ router2.post('/cadastrar/agrv', async (req, res) => {
 
 router2.get('/listar/agrv', async (req, res) => {
     const agrv = await Agrv.findAll({
-        attributes: ['idagrv', 'nome', 'numeropolo', 'permissaoacesso'],
+        attributes: ['idagrv', 'nome', 'numeropolo', 'permissaoacesso', 'painel_agrv'],
         where: {
-            painel_agrv: 1
+            permissaoacesso: {
+                [Op.or]: ['TOTEN', 'PERMITIDO', 'NEGADO']
+            }
         }
     })
         .then((agrv) => {
             res.json(agrv)
+            console.log(agrv)
         })
         .catch((err) => {
             console.log(err)
@@ -72,8 +75,8 @@ router2.get('/listar/agrv', async (req, res) => {
 });
 
 router2.put('/update/agrv/:id', async (req, res) => {
+
     var dados = req.body;
-    console.log(dados)
 
     const agrv = await Agrv.update(dados, {
         attributes: [
@@ -126,10 +129,10 @@ router2.get('/listar/relatorio/agrv/:polo', async (req, res) => {
         })
 });
 
-router2.get('/listar/clientes/agrv/:polo', async (req, res) => {
+router2.get('/listar/clientes/agrv/:polo', eAdmin, async (req, res) => {
 
     const clientes = await Fcweb.findAll({
-        attributes: ['id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro'],
+        attributes: ['id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro', 'formapgto'],
         where: {
             unidade: req.params.polo,
             scp: "A PAGAR",
