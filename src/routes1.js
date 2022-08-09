@@ -25,11 +25,11 @@ router1.get('/send/msg', eAdmin, async (req, res) => {
         const response2 = await enviarEmail(lista)
         res.json(response)
         res.json(response2)
-        
+
     } catch (error) {
         res.status(400).send(error)
     }
-    
+
 });
 
 router1.get('/send', eAdmin, function (req, res) {
@@ -41,7 +41,12 @@ router1.get('/itsallok', eAdmin, async (req, res) => {
 });
 
 router1.get('/test', eAdmin, async (req, res) => {
-    res.json('deu certo')
+    try {
+        res.status(200).send('deu certo')
+    }
+    catch (err) {
+        res.status(400).send(err)
+    }
 });
 
 
