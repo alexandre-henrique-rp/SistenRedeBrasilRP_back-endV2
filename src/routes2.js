@@ -27,12 +27,12 @@ router2.post('/cadastrar/agrv', async (req, res) => {
     const polo = await CalcPolo(response);
 
     const user = await Agrv.findOne({
-        attributes: ['idagrv', 'nome', 'cpf', 'nascimento', 'rg', 'logradouro', 'numero', 'complemento', 'bairro', 'cep', 'municipio', 'uf', 'whatsapp', 'chavepix', 'tipopix', 'numeropolo', 'a1pj_12m', 'a3pj_36m', 'a1pf_12m', 'a3pf_36m', 'nomepolo', 'ufpolo','permissaoacesso'],
+        attributes: ['idagrv', 'nome', 'cpf', 'nascimento', 'rg', 'logradouro', 'numero', 'complemento', 'cep', 'municipio', 'codmunicipio', 'uf', 'whatsapp', 'email', 'email2', 'permissaoacesso', 'senha', 'chavepix', 'nomebanco', 'numerobanco', 'numeroagencia', 'numeroconta', 'tipocontabanco', 'nomepolo', 'numeropolo', 'municipiopolo', 'ufpolo', 'a1pj_12m', 'a3pj_36m', 'a1pf_12m', 'a3pf_36m', 'tipopix', 'bairro', 'painel_agrv'],
     });
 
     var dados = req.body;
 
-    dados.permissaoacesso = 
+    dados.permissaoacesso = 'PERMITIDO'
     dados.nomepolo = req.body.municipio;
     dados.ufpolo = req.body.uf;
     dados.painel_agrv = 1;
