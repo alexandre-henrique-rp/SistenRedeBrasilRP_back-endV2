@@ -1,8 +1,7 @@
-require('dotenv').config();
-const Sequelize = require('sequelize');
-const database = require('../src/db');
+import Sequelize from 'sequelize';
+import DataBese from '../src/db.js';
 
-const Agrv = database.define('AGRV', {
+const Agrv = DataBese.define('AGRV', {
      idagrv: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -36,7 +35,7 @@ const Agrv = database.define('AGRV', {
      numeroconta: Sequelize.TEXT,
      tipocontabanco: Sequelize.TEXT,
      nomepolo: Sequelize.TEXT,
-     numeropolo: Sequelize.TEXT,
+     numeropolo: Sequelize.INTEGER(11),
      linklogopolo: Sequelize.TEXT,
      municipiopolo: Sequelize.TEXT,
      ufpolo: Sequelize.TEXT,
@@ -46,11 +45,12 @@ const Agrv = database.define('AGRV', {
      a3pf_36m: Sequelize.INTEGER(11),
      bairro: Sequelize.TEXT,
      tipopix: Sequelize.TEXT,
-     
+     painel_agrv: Sequelize.INTEGER(11),
+
 }, { freezeTableName: true });
 
 //criar a tabela
 // User.sync();
 
-module.exports = Agrv;
+export default Agrv;
 

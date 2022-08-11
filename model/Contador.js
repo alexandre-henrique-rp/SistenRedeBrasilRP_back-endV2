@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const database = require('../src/db');
+import Sequelize from 'sequelize';
+import database from '../src/db.js';
 
 const Contador = database.define('parceiro', { //nome da tabela a ser conectada
      codigo: {
@@ -35,4 +35,4 @@ const Contador = database.define('parceiro', { //nome da tabela a ser conectada
 //criar ou sicronizar a tabela
 // Contador.sync(); 
 
-module.exports = Contador;
+export default Contador;

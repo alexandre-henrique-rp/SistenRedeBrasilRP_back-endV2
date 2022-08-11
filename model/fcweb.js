@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const database = require('../src/db');
+import Sequelize from 'sequelize';
+import database from '../src/db.js';
 
 const Fcweb = database.define('fcweb', { //nome da tabela a ser conectada
      id: {
@@ -65,6 +65,8 @@ const Fcweb = database.define('fcweb', { //nome da tabela a ser conectada
      obs_agenda: Sequelize.TEXT,
      reg_cnh: Sequelize.TEXT,
      custoCdpar: Sequelize.TEXT,
+     custocd: Sequelize.TEXT,
+     createdAt: Sequelize.DATE,
 
 
 }, { freezeTableName: true }); // função para conectar tebela ja criada
@@ -72,4 +74,4 @@ const Fcweb = database.define('fcweb', { //nome da tabela a ser conectada
 //criar ou sicronizar a tabela
 // Cliente.sync(); 
 
-module.exports = Fcweb;
+export default Fcweb;
