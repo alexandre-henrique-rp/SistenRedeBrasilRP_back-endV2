@@ -35,7 +35,7 @@ const Agrv = DataBese.define('AGRV', {
      numeroconta: Sequelize.TEXT,
      tipocontabanco: Sequelize.TEXT,
      nomepolo: Sequelize.TEXT,
-     numeropolo: Sequelize.TEXT,
+     numeropolo: Sequelize.INTEGER(11),
      linklogopolo: Sequelize.TEXT,
      municipiopolo: Sequelize.TEXT,
      ufpolo: Sequelize.TEXT,
@@ -45,7 +45,8 @@ const Agrv = DataBese.define('AGRV', {
      a3pf_36m: Sequelize.INTEGER(11),
      bairro: Sequelize.TEXT,
      tipopix: Sequelize.TEXT,
-     
+     painel_agrv: Sequelize.INTEGER(11),
+
 }, { freezeTableName: true });
 
 //criar a tabela
