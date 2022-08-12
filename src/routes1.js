@@ -7,6 +7,8 @@ import { eAdmin } from '../middlewares/auth.js';
 
 import enviarSms from '../lib/enviarSms.js';
 import enviarEmail from '../lib/enviarEmail.js';
+import ClienteNfe from '../model/nfe.js';
+import { GetClinteNfe, list2, NfeSms, NfeSms2 } from '../lib/clienteNfe/vencimento.js';
 
 
 const router1 = Router()
@@ -29,6 +31,39 @@ router1.get('/send/msg', eAdmin, async (req, res) => {
     } catch (error) {
         res.status(400).send(error)
     }
+
+});
+
+router1.get('/send/msg/cliente/nfe', async (req, res) => {
+
+    try {
+        const lista = await GetClinteNfe();
+        const envio = await NfeSms(lista);
+        const lista2 = await list2(lista);
+        const envio2 = await NfeSms2(lista2);
+        res.json(envio)
+        res.json(envio2)
+        
+    } catch (error) {
+        res.status(400).send(error)
+    }
+
+});
+
+router1.get('/get/cliente/nfe', async (req, res) => {
+
+    const nfe = await ClienteNfe.findAll({
+        attributes: ['ID','CPF','CNPJ','Cliente',	'RAZAO','Vencimento','Valor','LINK',	'TEL1',	'TEL2','STATUS'],
+        where: {
+            STATUS: 1
+        }
+    })
+        .then((nfe) => {
+            res.json(nfe)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
 
 });
 
