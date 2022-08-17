@@ -98,6 +98,35 @@ router2.put('/update/agrv/:id', async (req, res) => {
         })
 });
 
+router2.put('/pg/agrv/:polo', async (req, res) => {
+
+    var dados = req.body;
+
+    const agrv = await Fcweb.update(dados, {
+        attributes: [
+            'id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro', 'formapgto'
+        ],
+        where: {
+            unidade: req.params.polo,
+            estatos_pgto: 'Pago',
+            andamento: {
+                [Op.or]: ['EMITIDO', 'APROVADO']
+            }
+        }
+
+    })
+        .then((agrv) => {
+            return res.json({
+                message: 'Revendedor pago com sucesso!'
+            });
+        })
+        .catch((err) => {
+            return res.status(400).json({
+                message: 'Erro: Não foi possível pagar o Revendedor!'
+            });
+        })
+});
+
 
 router2.get('/list/user/max/polo', async (req, res) => {
     const agrv = await Agrv.findAll({

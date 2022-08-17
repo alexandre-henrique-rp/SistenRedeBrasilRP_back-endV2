@@ -22,3 +22,5 @@ app.use(router5)
 app.listen(process.env.PORT || 3050, function () {
     console.log('🚀🚀🤖 servidor em execução 🤖🚀🚀')
 });
+
+//painel.redebrasilrp.com.br
