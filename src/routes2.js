@@ -6,11 +6,11 @@ import { Op } from "sequelize";
 
 import Fcweb from '../model/fcweb.js'
 import Agrv from '../model/agrv.js';
-import SetPolo from '../lib/agrv/setPolo.js';
-import CalcPolo from '../lib/agrv/calcPolo.js';
-import RelatorioPricipal from '../lib/agrv/relatorioAgrv.js';
-import ConsltaClientsAgrv from '../lib/agrv/consltaClientsAgrv.js';
-import RelatRevend from '../lib/agrv/relatrevenda.js';
+import { SetPolo } from '../lib/agrv/setPolo.js';
+import { CalcPolo } from '../lib/agrv/calcPolo.js';
+import { RelatorioPricipal } from '../lib/agrv/relatorioAgrv.js';
+import { ConsltaClientsAgrv } from '../lib/agrv/consltaClientsAgrv.js';
+import { RelatRevend } from '../lib/agrv/relatrevenda.js';
 
 const router2 = Router()
 
@@ -21,14 +21,14 @@ const router2 = Router()
 
 
 // router2.post('/cadastrar/agrv', eAdmin, async (req, res) => {
-router2.post('/cadastrar/agrv', async (req, res) => {
+router2.post( '/cadastrar/agrv', async ( req, res ) => {
 
     const response = await SetPolo();
-    const polo = await CalcPolo(response);
+    const polo = await CalcPolo( response );
 
-    const user = await Agrv.findOne({
-        attributes: ['idagrv', 'nome', 'cpf', 'nascimento', 'rg', 'logradouro', 'numero', 'complemento', 'bairro', 'cep', 'municipio', 'uf', 'whatsapp', 'chavepix', 'tipopix', 'numeropolo', 'a1pj_12m', 'a3pj_36m', 'a1pf_12m', 'a3pf_36m', 'nomepolo', 'ufpolo', 'permissaoacesso'],
-    });
+    const user = await Agrv.findOne( {
+        attributes: [ 'idagrv', 'nome', 'cpf', 'nascimento', 'rg', 'logradouro', 'numero', 'complemento', 'bairro', 'cep', 'municipio', 'uf', 'whatsapp', 'chavepix', 'tipopix', 'numeropolo', 'a1pj_12m', 'a3pj_36m', 'a1pf_12m', 'a3pf_36m', 'nomepolo', 'ufpolo', 'permissaoacesso' ],
+    } );
 
     var dados = req.body;
 
@@ -38,71 +38,71 @@ router2.post('/cadastrar/agrv', async (req, res) => {
     dados.painel_agrv = 1;
     dados.numeropolo = polo + 1;
     dados.email2 = req.body.senha;
-    dados.senha = await bcrypt.hash(dados.senha, 8);
+    dados.senha = await bcrypt.hash( dados.senha, 8 );
 
-    await Agrv.create(dados)
-        .then(() => {
-            console.log(dados)
-            console.log(user)
-            return res.status(200).json({
+    await Agrv.create( dados )
+        .then( () => {
+            console.log( dados )
+            console.log( user )
+            return res.status( 200 ).json( {
                 message: 'Parceiro de revenda cadastrado com sucesso!',
-            });
-        }).catch(err => {
-            return res.status(400).json({
+            } );
+        } ).catch( err => {
+            return res.status( 400 ).json( {
                 error: true,
                 message: 'Erro: Não foi possível cadastrar o Parceiro!'
-            });
-        });
+            } );
+        } );
 
-});
+} );
 
-router2.get('/listar/agrv', async (req, res) => {
-    const agrv = await Agrv.findAll({
-        attributes: ['idagrv', 'nome', 'numeropolo', 'permissaoacesso', 'painel_agrv'],
+router2.get( '/listar/agrv', async ( req, res ) => {
+    const agrv = await Agrv.findAll( {
+        attributes: [ 'idagrv', 'nome', 'numeropolo', 'permissaoacesso', 'painel_agrv' ],
         where: {
             permissaoacesso: {
-                [Op.or]: ['TOTEN', 'PERMITIDO', 'NEGADO']
+                [ Op.or ]: [ 'TOTEN', 'PERMITIDO', 'NEGADO' ]
             }
         }
-    })
-        .then((agrv) => {
-            res.json(agrv)
-            console.log(agrv)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-});
+    } )
+        .then( ( agrv ) => {
+            res.json( agrv )
+            console.log( agrv )
+        } )
+        .catch( ( err ) => {
+            console.log( err )
+        } )
+} );
 
-router2.put('/update/agrv/:id', async (req, res) => {
+router2.put( '/update/agrv/:id', async ( req, res ) => {
 
     var dados = req.body;
 
-    const agrv = await Agrv.update(dados, {
+    const agrv = await Agrv.update( dados, {
         attributes: [
             'idagrv', 'nome', 'cpf', 'nascimento', 'rg', 'logradouro', 'numero', 'complemento', 'bairro', 'cep', 'municipio', 'uf', 'whatsapp', 'chavepix', 'tipopix', 'numeropolo', 'a1pj_12m', 'a3pj_36m', 'a1pf_12m', 'a3pf_36m', 'nomepolo', 'ufpolo', 'permissaoacesso'
         ],
         where: {
             idagrv: req.params.id
         }
-    })
-        .then((agrv) => {
-            return res.json({
+    } )
+        .then( ( agrv ) => {
+            return res.json( {
                 message: 'Revendedor atualizado com sucesso!'
-            });
-        })
-        .catch((err) => {
-            return res.status(400).json({
+            } );
+        } )
+        .catch( ( err ) => {
+            return res.status( 400 ).json( {
                 message: 'Erro: Não foi possível atualizar o Revendedor!'
-            });
-        })
-});
+            } );
+        } )
+} );
 
-router2.put('/pg/agrv/:polo', async (req, res) => {
+router2.put( '/pg/agrv/:polo', async ( req, res ) => {
 
     var dados = req.body;
 
-    const agrv = await Fcweb.update(dados, {
+    const agrv = await Fcweb.update( dados, {
         attributes: [
             'id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro', 'formapgto'
         ],
@@ -110,83 +110,85 @@ router2.put('/pg/agrv/:polo', async (req, res) => {
             unidade: req.params.polo,
             estatos_pgto: 'Pago',
             andamento: {
-                [Op.or]: ['EMITIDO', 'APROVADO']
+                [ Op.or ]: [ 'EMITIDO', 'APROVADO' ]
             }
         }
 
-    })
-        .then((agrv) => {
-            return res.json({
+    } )
+        .then( ( agrv ) => {
+            return res.json( {
                 message: 'Revendedor pago com sucesso!'
-            });
-        })
-        .catch((err) => {
-            return res.status(400).json({
+            } );
+        } )
+        .catch( ( err ) => {
+            return res.status( 400 ).json( {
                 message: 'Erro: Não foi possível pagar o Revendedor!'
-            });
-        })
-});
+            } );
+        } )
+} );
 
 
-router2.get('/list/user/max/polo', async (req, res) => {
-    const agrv = await Agrv.findAll({
-        attributes: ['idagrv', 'nome', 'numeropolo'],
-    })
-    res.json(agrv)
+router2.get( '/list/user/max/polo', async ( req, res ) => {
+    const agrv = await Agrv.findAll( {
+        attributes: [ 'idagrv', 'nome', 'numeropolo' ],
+    } )
+    res.json( agrv )
 
-});
+} );
 
-router2.get('/listar/relatorio/agrv/:polo', async (req, res) => {
+router2.get( '/listar/relatorio/agrv/:polo', async ( req, res ) => {
 
-    const agrv = await Fcweb.findAll({
-        attributes: ['id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro'],
+    const agrv = await Fcweb.findAll( {
+        attributes: [ 'id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro' ],
         where: {
             unidade: req.params.polo,
             scp: "A PAGAR",
             estatos_pgto: 'Pago',
             andamento: {
-                [Op.or]: ['EMITIDO', 'APROVADO']
+                [ Op.or ]: [ 'EMITIDO', 'APROVADO' ]
             }
         }
-    })
-        .then((agrv) => {
-            res.json(agrv)
+    } )
+        .then( ( agrv ) => {
+            res.json( agrv )
 
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-});
+        } )
+        .catch( ( err ) => {
+            console.log( err )
+        } )
+} );
 
-router2.get('/listar/clientes/agrv/:polo', eAdmin, async (req, res) => {
+router2.get( '/listar/clientes/agrv/:polo', eAdmin, async ( req, res ) => {
 
-    const clientes = await Fcweb.findAll({
-        attributes: ['id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro', 'formapgto'],
+    const clientes = await Fcweb.findAll( {
+        attributes: [ 'id', 'nome', 'razaosocial', 'cnpj', 'cpf', 'unidade', 'estatos_pgto', 'andamento', 'telefone', 'scp', 'custoCdpar', 'tipocd', 'valorcd', 'custocd', 'comissaoparceiro', 'formapgto' ],
         where: {
             unidade: req.params.polo,
             scp: "A PAGAR",
         }
-    })
-        .then((clientes) => {
-            res.json(clientes)
+    } )
+        .then( ( clientes ) => {
+            res.json( clientes )
 
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-});
+        } )
+        .catch( ( err ) => {
+            console.log( err )
+        } )
+} );
 
 // router2.get('/faturamento/agrv', eAdmin, async (req, res) => {
-router2.get('/faturamento/agrv', async (req, res) => {
-    try {
+router2.get( '/faturamento/agrv', async ( req, res ) => {
+    try
+    {
         const agentRevenda = await RelatorioPricipal();
-        const relatoRevenda = await ConsltaClientsAgrv(agentRevenda);
-        const fature = await RelatRevend(relatoRevenda)
-        res.send(fature);
-    } catch (error) {
-        res.status(400).send('Deu Ruim de vez')
+        const relatoRevenda = await ConsltaClientsAgrv( agentRevenda );
+        const fature = await RelatRevend( relatoRevenda )
+        res.send( fature );
+    } catch ( error )
+    {
+        res.status( 400 ).send( 'Deu Ruim de vez' )
     }
-});
+} );
 
 
 
