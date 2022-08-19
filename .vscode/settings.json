@@ -1,0 +1,23 @@
+{
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+    "javascript.format.insertSpaceAfterSemicolonInForStatements": false,
+    "javascript.format.insertSpaceBeforeAndAfterBinaryOperators": true,
+    "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+    "javascript.format.insertSpaceAfterKeywordsInControlFlowStatements": false,
+    "javascript.inlayHints.enumMemberValues.enabled": false,
+    "javascript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": false,
+    "javascript.referencesCodeLens.showOnAllFunctions": false,
+    "javascript.suggest.completeFunctionCalls": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "javascript.format.enable": true,
+    "editor.fontSize": 14,
+    "editor.fontFamily": "JetBrains Mono",
+    "files.autoSave": "afterDelay",
+    "workbench.colorCustomizations": {
+
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+}
