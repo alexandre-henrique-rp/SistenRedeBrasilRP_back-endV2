@@ -16,12 +16,12 @@ import { AxioPost } from "../lib/axios_api.js";
 
 // const inicio = { id: "0001", name: "Relatorio de erro(" + dataAtual + ")" };
 
-const enviarSms = async (lista) => {
+const enviarSms = async lista => {
   const quant = lista.length;
   const ErrorSms = [];
 
-  lista.forEach(function (item, index) {
-    setTimeout(async function () {
+  lista.forEach(function(item, index) {
+    setTimeout(async function() {
       const Dia = Vencimento.substr(8, 2);
       const Mes = Vencimento.substr(5, 2);
       const Ano = Vencimento.substr(0, 4);
@@ -42,9 +42,9 @@ const enviarSms = async (lista) => {
       const requestOptionsDefault = {
         headers: {
           "access-token": process.env.ZAP_TOKEN,
-          "Content-Type": process.env.ZAP_TYPE,
+          "Content-Type": process.env.ZAP_TYPE
         },
-        redirect: "follow",
+        redirect: "follow"
       };
       axios
         .post(
@@ -53,11 +53,11 @@ const enviarSms = async (lista) => {
             number: 55 + item.telefone,
             message: smsScript,
             forceSend: true,
-            verifyContact: false,
+            verifyContact: false
           }),
           requestOptionsDefault
         )
-        .then((response) => {
+        .then(response => {
           res.status(200).send(response);
           console.log(
             response.data.status,
@@ -71,12 +71,12 @@ const enviarSms = async (lista) => {
             console.status(200).send("Todas as mensagens fora enviadas");
             const resp = {
               status: 200,
-              message: "Todas as mensagens fora enviadas",
+              message: "Todas as mensagens fora enviadas"
             };
             return JSON.stringify(resp, null, 2);
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(
             error.message,
             (message =
@@ -96,7 +96,7 @@ const enviarSms = async (lista) => {
             telefone,
             titulo,
             titulo_doc,
-            email,
+            email
           });
 
           if (quant === index + 1) {
@@ -106,20 +106,20 @@ const enviarSms = async (lista) => {
                 .then(() => {
                   console.log("criado com susseso");
                 })
-                .catch((error) => {
+                .catch(error => {
                   console.error("arqiovo não foi escrito");
                 });
             console.log({
               status: 500,
               message:
                 "Os Telefones estam incorretos foran salvos par relatorio",
-              error,
+              error
             });
             const resp = {
               status: 500,
               message:
                 "Os Telefones estam incorretos foran salvos par relatorio",
-              error,
+              error
             };
             return JSON.stringify(resp, null, 2);
           }
@@ -130,7 +130,7 @@ const enviarSms = async (lista) => {
           const resp = {
             status: 500,
             message: "Este telefone " + item.telefone + " não possui whatsapp",
-            error,
+            error
           };
           return JSON.stringify(resp, null, 2);
         });
@@ -140,40 +140,37 @@ const enviarSms = async (lista) => {
 
 export default enviarSms;
 
-export const VerificaSms = async (lista) =>
-  await Promise.all( lista.map( async item  => {
-    setTimeout( () => {
-    var config = {
-      method: "post",
-      url: `https://api.zapstar.com.br/core/v2/api/wa-number-check/${item.telefone}`,
-      headers: {
-        "access-token": "60de0c8bb0012f1e6ac5546b",
-      },
-    };
+export const VerificaSms = async lista =>
+  await Promise.all(
+    lista.map(async item => {
+      var tel = 55 + item.telefone;
+      const data = { ref: item.id, dia: item.venc, tipoCD: item.tipoCD, log: item.telefone, titulo: item.titulo, email: item.email, doc: item.doc };
+      const url = "reg/error";
+      var config = {
+        method: "post",
+        url:
+          "https://api.zapstar.com.br/core/v2/api/wa-number-check/" +
+          tel,
+        headers: {
+          "access-token": "60de0c8bb0012f1e6ac5546b"
+        }
+      };
 
-    axios(config)
-      .then(async (response) => {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch(async (error) => {
-        console.log(error);
+      axios(config)
+        .then(async response => {
+          console.log(JSON.stringify(response.data));
+          if (response.data.status === "INVALID_WA_NUMBER") {
+            const resp = await AxioPost(url, data);
+            console.log(resp)
+            console.log(data)
+            return resp
+          }
+        })
+        .catch(async error => {
+          console.log(error);
+        });
+    })
+  );
 
-        let data = {
-          ref: item.id,
-          dia: item.venc,
-          tipoCD: item.tipoCD,
-          log: item.telefone,
-          titulo: item.titulo,
-          email: item.email,
-          doc: item.doc,
-        };
-        const url = "reg/error";
-        const logError = await AxioPost(url, data);
-        return logError;
-      });
-    },200)
-
-  } ) );
-
-export const SmsWhatsapp = async (lista) =>
-  await Promise.all(lista.map(async (item) => {}));
+export const SmsWhatsapp = async lista =>
+  await Promise.all(lista.map(async item => {}));
