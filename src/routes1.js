@@ -13,6 +13,7 @@ import {
 } from "../lib/clienteNfe/vencimento.js";
 import { AxioGet1 } from "../lib/axios_api.js";
 import { LogErro } from "../model/logError.js";
+import {Cobranca} from "../lib/cobranca/cobranca.js";
 
 const router1 = Router();
 
@@ -89,9 +90,9 @@ router1.get("/test", eAdmin, async (req, res) => {
   }
 });
 router1.get("/test1", async (req, res) => {
-  console.log("aki");
-  const resposta = await AxioGet1();
-  res.status(200).send(resposta);
+  const tel = req.body.tel
+  const resposta = await Cobranca(tel);
+  res.status(200).json(resposta);
 });
 
 export default router1;
