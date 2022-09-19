@@ -1,9 +1,10 @@
 import "dotenv/config";
 import { Router } from "express";
 import sequelize from "sequelize";
-import { VerificaSms } from "../biblioteca/whatsapp.js";
+import { WhatsAppVerific } from "../biblioteca/whatsapp.js";
 import { GetVencimento } from "../lib/vencimento/getClienteVencimento.js";
-import {RemoveErro} from "../lib/vencimento/romoveErro.js";
+import {EnviaSms} from "../lib/vencimento/sendsms.js";
+
 import Fcweb from "../model/fcweb.js";
 import { LogErro } from "../model/logError.js";
 
@@ -51,7 +52,7 @@ router6.get("log/error", async (req, res) => {
 router6.get("/send/msg", async (req, res) => {
   try {
     const lista = req.body;
-    const response = await enviarSms(lista);
+    const response = await EnviaSms(lista);
     const response2 = await enviarEmail(lista);
     res.json(response);
     res.json(response2);
@@ -63,8 +64,8 @@ router6.get("/send/msg", async (req, res) => {
 router6.get("/send/vencimento", async (req, res) => {
   try {
     const lista = await GetVencimento();
-    const relat = await VerificaSms(lista);
-    const erro = await RemoveErro(lista)
+    const relat = await WhatsAppVerific(lista);
+    const erro = await EnviaSms(lista);
 
     res.json(relat);
   } catch (error) {

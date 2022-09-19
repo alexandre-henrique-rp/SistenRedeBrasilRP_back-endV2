@@ -2,35 +2,36 @@ import "dotenv/config";
 import { Router } from "express";
 import { eAdmin } from "../middlewares/auth.js";
 
-import enviarSms from "../lib/enviarSms.js";
-import enviarEmail from "../lib/enviarEmail.js";
+// import enviarSms from "../lib/enviarSms.js";
+// import enviarEmail from "../lib/enviarEmail.js";
 import ClienteNfe from "../model/nfe.js";
 import {
   GetClinteNfe,
   list2,
   NfeSms,
-  NfeSms2,
+  NfeSms2
 } from "../lib/clienteNfe/vencimento.js";
-import { AxioGet1 } from "../lib/axios_api.js";
-import { LogErro } from "../model/logError.js";
-import {Cobranca} from "../lib/cobranca/cobranca.js";
+// import { AxioGet1 } from "../lib/axios_api.js";
+// import { LogErro } from "../model/logError.js";
+import { Cobranca } from "../lib/cobranca/cobranca.js";
+import { getCNPJ } from "../api/consultas/consultCnpj.js";
 
 const router1 = Router();
 
 // session funcionalidades
 //---------------------------------------------------------------------------------------------
 
-router1.get("/send/msg", eAdmin, async (req, res) => {
-  try {
-    const lista = req.body;
-    const response = await enviarSms(lista);
-    const response2 = await enviarEmail(lista);
-    res.json(response);
-    res.json(response2);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
+// router1.get("/send/msg", eAdmin, async (req, res) => {
+//   try {
+//     const lista = req.body;
+//     const response = await enviarSms(lista);
+//     const response2 = await enviarEmail(lista);
+//     res.json(response);
+//     res.json(response2);
+//   } catch (error) {
+//     res.status(400).send(error);
+//   }
+// });
 
 router1.get("/send/msg/cliente/nfe", async (req, res) => {
   try {
@@ -58,11 +59,11 @@ router1.get("/get/cliente/nfe", async (req, res) => {
       "LINK",
       "TEL1",
       "TEL2",
-      "STATUS",
+      "STATUS"
     ],
     where: {
-      STATUS: 1,
-    },
+      STATUS: 1
+    }
   })
     .then((nfe) => {
       res.json(nfe);
@@ -71,8 +72,6 @@ router1.get("/get/cliente/nfe", async (req, res) => {
       console.log(err);
     });
 });
-
-
 
 router1.get("/send", eAdmin, function (req, res) {
   res.json("ola");
@@ -89,10 +88,15 @@ router1.get("/test", eAdmin, async (req, res) => {
     res.status(400).send(err);
   }
 });
-router1.get("/test1", async (req, res) => {
-  const tel = req.body.tel
-  const resposta = await Cobranca(tel);
-  res.status(200).json(resposta);
+
+router1.get("/consulta/cnpj", async (req, res) => {
+  try {
+    const cnpj = req.body.cnpj;
+    const resposta = await getCNPJ(cnpj);
+    res.status(200).json(resposta);
+  } catch (error) {
+    res.status(400).send(err);
+  }
 });
 
 export default router1;

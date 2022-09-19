@@ -46,25 +46,29 @@ router5.get('/pesqisa/contador', async (req, res) => {
 
 router5.get('/pesqisa/cliente/:contador', async (req, res) => {
 
+    const date = new Date();
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
     const cliente = await Fcweb.findAll({
-        attributes: ['id', 'contador', 'tipocd', 'dt_aprovacao'],
-        order: [['dt_aprovacao', 'DESC']],
-        where: {
-            contador: {
-                [Op.like]: req.params.contador
-            },
-            dt_aprovacao: {
-                [Op.lte]: new Date,
-                [Op.gte]: new Date(new Date() - 13 * 60 * 60 * 60 * 1000),
-            }
+      attributes: ["id", "contador", "tipocd", "dt_aprovacao"],
+      order: [["dt_aprovacao", "DESC"]],
+      where: {
+        contador: {
+          [Op.like]: req.params.contador
+        },
+        dt_aprovacao: {
+          [Op.lte]: lastDay,
+          [Op.gte]: firstDay
         }
+      }
     })
-        .then((cliente) => {
-            res.json(cliente)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+      .then((cliente) => {
+        res.json(cliente);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 });
 
 export default router5;
