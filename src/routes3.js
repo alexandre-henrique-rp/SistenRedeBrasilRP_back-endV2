@@ -79,6 +79,7 @@ router3.post('/cadastrar/agr', async (req, res) => {
 
     dados.polo = 'MATRIZ'
     dados.c_unidade = 1
+    dados.usuario = req.body.usuarrio
     dados.nome = req.body.nome
     dados.email = req.body.email
     dados.A1PF = req.body.a1pf

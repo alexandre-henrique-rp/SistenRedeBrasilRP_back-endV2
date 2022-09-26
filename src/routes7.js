@@ -1,9 +1,13 @@
 import "dotenv/config";
 import { Router } from "express";
 import { Op } from "sequelize";
+import {AxioGet} from "../lib/axios_api.js";
+import { GetLista } from "../lib/cobranca/calculos/totalCertMes.js";
+import { ValorCobr } from "../lib/cobranca/calculos/valorcobr.js";
 import { Cobranca } from "../lib/cobranca/cobranca.js";
-import { GetLista } from "../lib/cobranca/dasbordCal.js";
 import { DashBord } from "../lib/cobranca/dashbord.js";
+import { DashBord2 } from "../lib/cobranca/dashbord2.js";
+import {RespostaCobre} from "../lib/cobranca/respcobre.js";
 import { eAdmin } from "../middlewares/auth.js";
 
 import Fcweb from "../model/fcweb.js";
@@ -27,16 +31,22 @@ router7.get("/combranca", async (req, res) => {
       "andamento",
       "telefone",
       "tipocd",
+      "validacao",
       "valorcd",
+      "custocd",
       "dt_aprovacao",
-      "formapgto"
+      "formapgto",
+      "id_fcw_soluti",
+      "contador",
+      "smspg"
     ],
     where: {
+      unidade: 1,
       estatos_pgto: {
         [Op.or]: ["", "Verificar", "Falta pgto"]
       },
       andamento: {
-        [Op.or]: ["EMITIDO", "APROVADO", "ENVIADO CV"]
+        [Op.or]: ["EMITIDO", "APROVADO"]
       },
       dt_aprovacao: {
         [Op.lte]: new Date(),
@@ -44,8 +54,16 @@ router7.get("/combranca", async (req, res) => {
       }
     }
   })
-    .then((agrv) => {
-      return res.status(200).json(agrv);
+    .then(async (agrv) => {
+      const valor = await ValorCobr(agrv);
+      return res.status(200).json({
+        data: agrv,
+        quant: agrv.length,
+        valor: valor.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL"
+        })
+      });
     })
     .catch((err) => {
       return res.status(400).json({
@@ -86,11 +104,12 @@ router7.get("/combranca/relat/emissao", async (req, res) => {
       "valorcd",
       "custocd",
       "dt_aprovacao",
-      "formapgto"
+      "formapgto",
+      "id_fcw_soluti"
     ],
     where: {
       andamento: {
-        [Op.or]: ["EMITIDO", "APROVADO", "ENVIADO CV"]
+        [Op.or]: ["EMITIDO", "APROVADO"]
       },
       dt_aprovacao: {
         [Op.gte]: firstDay,
@@ -109,10 +128,27 @@ router7.get("/combranca/relat/emissao", async (req, res) => {
     });
 });
 
-router7.get("/combranca/relat/dashbord", async (req, res) => {
+router7.get("/combranca/relat/dashbord", eAdmin, async (req, res) => {
   try {
-    const getDashboard = await DashBord();
-    return res.status(200).json(getDashboard);
+    const getresp = await GetLista();
+    const getDashboard = await DashBord(getresp);
+    const getDashboard2 = await DashBord2(getresp);
+    const resposta = { ...getDashboard, ...getDashboard2 };
+    return res.status(200).json(resposta);
+  } catch (err) {
+    return res.status(400).json({
+      message: "Erro: Não foi possível comunicar com servidor!",
+      erro: err
+    });
+  }
+});
+router7.get("/combranca/lista", async (req, res) => {
+  try {
+     const url = "combranca";
+    const get = await AxioGet(url);
+    console.log(get)
+    const resposta = await RespostaCobre(get.data);
+    return res.status(200).json(resposta);
   } catch (err) {
     return res.status(400).json({
       message: "Erro: Não foi possível comunicar com servidor!",
