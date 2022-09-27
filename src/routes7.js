@@ -1,13 +1,13 @@
 import "dotenv/config";
 import { Router } from "express";
 import { Op } from "sequelize";
-import {AxioGet} from "../lib/axios_api.js";
+import { AxioGet } from "../lib/axios_api.js";
 import { GetLista } from "../lib/cobranca/calculos/totalCertMes.js";
 import { ValorCobr } from "../lib/cobranca/calculos/valorcobr.js";
 import { Cobranca } from "../lib/cobranca/cobranca.js";
 import { DashBord } from "../lib/cobranca/dashbord.js";
 import { DashBord2 } from "../lib/cobranca/dashbord2.js";
-import {RespostaCobre} from "../lib/cobranca/respcobre.js";
+import { RespostaCobre } from "../lib/cobranca/respcobre.js";
 import { eAdmin } from "../middlewares/auth.js";
 
 import Fcweb from "../model/fcweb.js";
@@ -144,9 +144,8 @@ router7.get("/combranca/relat/dashbord", eAdmin, async (req, res) => {
 });
 router7.get("/combranca/lista", async (req, res) => {
   try {
-     const url = "combranca";
+    const url = "combranca";
     const get = await AxioGet(url);
-    console.log(get)
     const resposta = await RespostaCobre(get.data);
     return res.status(200).json(resposta);
   } catch (err) {
@@ -155,6 +154,45 @@ router7.get("/combranca/lista", async (req, res) => {
       erro: err
     });
   }
+});
+
+router7.put('/combranca/update/relat/:id', async (req, res) => {
+  const data = req.body;
+  data.smspg = req.body.smspg;
+  const cliente = await Fcweb.update(data, {
+    attributes: [
+      "id",
+      "nome",
+      "razaosocial",
+      "cnpj",
+      "cpf",
+      "unidade",
+      "estatos_pgto",
+      "andamento",
+      "telefone",
+      "tipocd",
+      "validacao",
+      "valorcd",
+      "custocd",
+      "dt_aprovacao",
+      "formapgto",
+      "id_fcw_soluti",
+      "contador",
+      "smspg"
+    ],
+    where: {
+      id: req.params.id,
+    }
+  })
+    .then((cliente) => {
+      res.json(cliente);
+    })
+    .catch((err) => {
+      return res.status(400).json({
+        message: "Erro: Não foi possível comunicar com servidor!",
+        erro: err
+      });
+    });
 });
 
 export default router7;

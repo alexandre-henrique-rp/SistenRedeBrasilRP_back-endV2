@@ -67,6 +67,7 @@ const Fcweb = database.define('fcweb', { //nome da tabela a ser conectada
      custoCdpar: Sequelize.TEXT,
      custocd: Sequelize.TEXT,
      createdAt: Sequelize.DATE,
+     smspg: Sequelize.INTEGER,
 
 
 }, { freezeTableName: true }); // função para conectar tebela ja criada
