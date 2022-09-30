@@ -7,6 +7,7 @@ import routes4 from './src/routes4.js';
 import router5 from './src/routes5.js';
 import router6 from './src/routes6.js';
 import router7 from './src/routes7.js';
+import router8 from './src/routes8.js'
 
 import cors from 'cors';
 
@@ -21,6 +22,7 @@ app.use(routes4)
 app.use(router5)
 app.use(router6)
 app.use(router7)
+app.use(router8)
 
 
 
