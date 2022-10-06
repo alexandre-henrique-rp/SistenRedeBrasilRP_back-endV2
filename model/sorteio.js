@@ -24,6 +24,7 @@ const Sorteio = database.define(
     cpf: Sequelize.TEXT,
     empresa: Sequelize.TEXT,
     certificado: Sequelize.TEXT,
+    lgpd: Sequelize.TEXT,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   },
