@@ -24,7 +24,7 @@ export const WhatsAppSms = async (tel, msg) => {
       return "Mensagem entregue";
     })
     .catch((error) => {
-      console.log("error", error);
+      console.log(error.response.data);
       return "não foi possível contactar o esse cliente, tente outra forma de contato";
     });
   return resposta;

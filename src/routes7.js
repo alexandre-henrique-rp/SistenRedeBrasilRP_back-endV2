@@ -144,9 +144,10 @@ router7.get("/combranca/relat/dashbord", eAdmin, async (req, res) => {
 });
 router7.get("/combranca/lista", async (req, res) => {
   try {
-    const url = "combranca";
+    const url = "/combranca";
     const get = await AxioGet(url);
     const resposta = await RespostaCobre(get.data);
+    console.log(resposta)
     return res.status(200).json(resposta);
   } catch (err) {
     return res.status(400).json({
