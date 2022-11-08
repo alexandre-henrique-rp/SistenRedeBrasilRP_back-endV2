@@ -1,74 +1,93 @@
-import 'dotenv/config'
-import { Router } from 'express';
+import "dotenv/config";
+import { Router } from "express";
 import { Op } from "sequelize";
-import { eAdmin } from '../middlewares/auth.js';
+import { eAdmin } from "../middlewares/auth.js";
 
+import Fcweb from "../model/fcweb.js";
+import Contador from "../model/Contador.js";
+import { PesqisaATV, PesqisaCont } from "../lib/contadores/contpesq.js";
+import { ResultRelat } from "../lib/contadores/resultcont.js";
+import { Calc2 } from "../lib/calc.js";
 
+const router5 = Router();
 
-import Fcweb from '../model/fcweb.js';
-import Contador from '../model/Contador.js';
-import { PesqisaATV, PesqisaCont } from '../lib/contadores/contpesq.js'
-import { ResultRelat } from '../lib/contadores/resultcont.js';
-
-
-
-const router5 = Router()
-
-
-// session clinte
+// session contador
 
 // ---------------------------------------------------------------------------
 
-router5.get('/relatorio/contador', async (req, res) => {
-    try {
-        const pesqicont = await PesqisaCont()
-        const pequires = await PesqisaATV(pesqicont)
-        const result = await ResultRelat(pequires)
+router5.get("/relatorio/contador", async (req, res) => {
+  try {
+    const pesqicont = await PesqisaCont();
+    const pequires = await PesqisaATV(pesqicont);
+    const result = await ResultRelat(pequires);
 
-        res.json(result);
-    } catch (error) {
-        res.status(400).send('Deu Ruim o relatorio dos contadores')
-    }
+    res.json(result);
+  } catch (error) {
+    res.status(400).send("Deu Ruim o relatorio dos contadores");
+  }
 });
 
-router5.get('/pesqisa/contador', async (req, res) => {
-
-    const contador = await Contador.findAll({
-        attributes: ['codigo', 'nome'],
+router5.get("/pesqisa/contador", async (req, res) => {
+  const contador = await Contador.findAll({
+    attributes: ["codigo", "nome"]
+  })
+    .then((contador) => {
+      res.json(contador);
     })
-        .then((contador) => {
-            res.json(contador)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
-router5.get('/pesqisa/cliente/:contador', async (req, res) => {
+router5.get("/pesqisa/cliente/:contador", async (req, res) => {
+  const date = new Date();
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
-    const date = new Date();
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
-    const cliente = await Fcweb.findAll({
-      attributes: ["id", "contador", "tipocd", "dt_aprovacao"],
-      order: [["dt_aprovacao", "DESC"]],
-      where: {
-        contador: {
-          [Op.like]: req.params.contador
-        },
-        dt_aprovacao: {
-          [Op.lte]: lastDay,
-          [Op.gte]: firstDay
-        }
+  const cliente = await Fcweb.findAll({
+    attributes: ["id", "contador", "tipocd", "dt_aprovacao"],
+    order: [["dt_aprovacao", "DESC"]],
+    where: {
+      contador: {
+        [Op.like]: req.params.contador
+      },
+      dt_aprovacao: {
+        [Op.lte]: lastDay,
+        [Op.gte]: firstDay
       }
+    }
+  })
+    .then((cliente) => {
+      res.json(cliente);
     })
-      .then((cliente) => {
-        res.json(cliente);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router5.get("/pesqisa/ariela", async (req, res) => {
+  // const date = new Date();
+  // const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  // const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  const firstDay = "2021-09-01 03:00:00";
+  const lastDay = "2021-09-30 03:00:00";
+  const calculo = await Fcweb.findAll({
+    attributes: ["id", "contador", "tipocd", "dt_aprovacao"],
+    // order: [["referencia", "DESC"]],
+    where: {
+      dt_aprovacao: {
+        [Op.lte]: lastDay,
+        [Op.gte]: firstDay
+      }
+    }
+  })
+    .then(async (cliente) => {
+      const resp = await Calc2(cliente);
+      res.json(resp);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 export default router5;

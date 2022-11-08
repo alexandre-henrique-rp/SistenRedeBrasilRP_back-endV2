@@ -1,50 +1,50 @@
 import "dotenv/config";
 import { Router } from "express";
 import sequelize from "sequelize";
-import { WhatsAppVerific } from "../biblioteca/whatsapp.js";
+import { Op } from "sequelize";
+import { EmailVenc } from "../biblioteca/emailVencimento.js";
+import { VencSms } from "../lib/vencimento/enviarsms.js";
 import { GetVencimento } from "../lib/vencimento/getClienteVencimento.js";
-import {EnviaSms} from "../lib/vencimento/sendsms.js";
+import { GetErro } from "../lib/vencimento/geterro.js";
+import { EnviaSms } from "../lib/vencimento/sendsms.js";
+import Contador from "../model/Contador.js";
 
 import Fcweb from "../model/fcweb.js";
 import { LogErro } from "../model/logError.js";
 
 const router6 = Router();
 
-// session mensagens
+// session vencimento
 //---------------------------------------------------------------------------------------------
 
 router6.post("/reg/error", async (req, res) => {
   var dados = req.body;
   const logErro = await LogErro.create(dados)
-    .then(logErro => {
-      console.log(logErro);
+    .then((logErro) => {
+      console.log("Log registrado com sucesso!");
       return res.status(200).json({
         message: "Log registrado com sucesso!"
       });
     })
-    .catch(err => {
+    .catch((err) => {
       return res.status(400).json({
         error: true,
         message: "Erro: Não foi possível registar Log!"
       });
     });
-   console.log(logErro);
+  console.log(logErro);
 });
 
-router6.get("log/error", async (req, res) => {
+router6.get("/log/error", async (req, res) => {
   const log = await LogErro.findAll({
-    attributes: [
-      'id', 'ref', 'log', 'reg', 'dia', 'titulo', 'email', 'doc'
-    ],
-    where: {
-      reg:  sequelize.fn("CURRENT_DATE")
-    }
+    attributes: ["id", "ref", "log", "reg", "dia", "titulo", "email", "doc"],
+    where: sequelize.fn("DATE(reg) = CURDATE")
   })
-   .then(async (log) => {
+    .then(async (log) => {
       console.log(log);
       res.status(200).json(log);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 });
@@ -64,10 +64,10 @@ router6.get("/send/msg", async (req, res) => {
 router6.get("/send/vencimento", async (req, res) => {
   try {
     const lista = await GetVencimento();
-    const relat = await WhatsAppVerific(lista);
-    const erro = await EnviaSms(lista);
-
-    res.json(relat);
+    // const relat = await GetErro(lista);
+    // const email = await EmailVenc(lista);
+    console.log(lista);
+    res.status(200).send(lista);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -82,6 +82,8 @@ router6.get("/cliente-30", async (req, res) => {
       "tipoCD",
       "telefone",
       "email",
+      "contador",
+      "nome",
       [
         sequelize.literal('(SELECT IF(tipocd LIKE "%J%", razaosocial, nome))'),
         "titulo"
@@ -101,12 +103,12 @@ router6.get("/cliente-30", async (req, res) => {
       )
     }
   })
-    .then(cliente => {
+    .then((cliente) => {
       const quant = cliente.length;
       console.log(quant);
       res.status(200).json(cliente);
     })
-    .catch(Error => console.error(Error));
+    .catch((Error) => console.error(Error));
 });
 
 router6.get("/cliente-15", async (req, res) => {
@@ -118,6 +120,8 @@ router6.get("/cliente-15", async (req, res) => {
       "tipoCD",
       "telefone",
       "email",
+      "contador",
+      "nome",
       [
         sequelize.literal('(SELECT IF(tipocd LIKE "%J%", razaosocial, nome))'),
         "titulo"
@@ -137,12 +141,12 @@ router6.get("/cliente-15", async (req, res) => {
       )
     }
   })
-    .then(cliente => {
+    .then((cliente) => {
       const quant = cliente.length;
       console.log(quant);
       res.status(200).json(cliente);
     })
-    .catch(Error => console.error(Error));
+    .catch((Error) => console.error(Error));
 });
 
 router6.get("/cliente-10", async (req, res) => {
@@ -154,6 +158,8 @@ router6.get("/cliente-10", async (req, res) => {
       "tipoCD",
       "telefone",
       "email",
+      "contador",
+      "nome",
       [
         sequelize.literal('(SELECT IF(tipocd LIKE "%J%", razaosocial, nome))'),
         "titulo"
@@ -173,12 +179,12 @@ router6.get("/cliente-10", async (req, res) => {
       )
     }
   })
-    .then(cliente => {
+    .then((cliente) => {
       const quant = cliente.length;
       console.log(quant);
       res.status(200).json(cliente);
     })
-    .catch(Error => console.error(Error));
+    .catch((Error) => console.error(Error));
 });
 
 router6.get("/cliente-5", async (req, res) => {
@@ -190,6 +196,8 @@ router6.get("/cliente-5", async (req, res) => {
       "tipoCD",
       "telefone",
       "email",
+      "contador",
+      "nome",
       [
         sequelize.literal('(SELECT IF(tipocd LIKE "%J%", razaosocial, nome))'),
         "titulo"
@@ -209,12 +217,12 @@ router6.get("/cliente-5", async (req, res) => {
       )
     }
   })
-    .then(cliente => {
+    .then((cliente) => {
       const quant = cliente.length;
       console.log(quant);
       res.status(200).json(cliente);
     })
-    .catch(Error => console.error(Error));
+    .catch((Error) => console.error(Error));
 });
 
 router6.get("/cliente-1", async (req, res) => {
@@ -226,6 +234,8 @@ router6.get("/cliente-1", async (req, res) => {
       "tipoCD",
       "telefone",
       "email",
+      "contador",
+      "nome",
       [
         sequelize.literal('(SELECT IF(tipocd LIKE "%J%", razaosocial, nome))'),
         "titulo"
@@ -245,12 +255,12 @@ router6.get("/cliente-1", async (req, res) => {
       )
     }
   })
-    .then(cliente => {
+    .then((cliente) => {
       const quant = cliente.length;
       console.log(quant);
       res.status(200).json(cliente);
     })
-    .catch(Error => console.error(Error));
+    .catch((Error) => console.error(Error));
 });
 
 router6.get("/cliente-now", async (req, res) => {
@@ -262,6 +272,8 @@ router6.get("/cliente-now", async (req, res) => {
       "tipoCD",
       "telefone",
       "email",
+      "contador",
+      "nome",
       [
         sequelize.literal('(SELECT IF(tipocd LIKE "%J%", razaosocial, nome))'),
         "titulo"
@@ -278,12 +290,30 @@ router6.get("/cliente-now", async (req, res) => {
       vctoCD: sequelize.fn("CURRENT_DATE")
     }
   })
-    .then(cliente => {
+    .then((cliente) => {
       const quant = cliente.length;
       console.log(quant);
       res.status(200).json(cliente);
+
     })
-    .catch(Error => console.error(Error));
+    .catch((Error) => console.error(Error));
+});
+
+router6.get("/pesqisa/getcontador", async (req, res) => {
+  const contador = await Contador.findOne({
+    attributes: [`unidade`, `nome`, `fone`, `email`, `whatsapp`],
+    where: {
+      nome: {
+        [Op.like]: req.body.contador
+      }
+    }
+  })
+    .then((contador) => {
+      res.status(200).send(contador);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 export default router6;
