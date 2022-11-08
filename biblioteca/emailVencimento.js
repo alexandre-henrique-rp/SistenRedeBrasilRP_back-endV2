@@ -23,9 +23,10 @@ export const EmailVenc = async (lista) =>
           transporter
             .sendMail({
               from: process.env.EMAIL_USER,
-              to: [item.email, item.emailCont],
-              //   to: "alexandreredebrasil@gmail.com",
-              subject: `${nome} presisamos comversar!`,
+              to: [item.email,item.emailCont],
+              // to: alexandreredebrasil@gmail.com,
+              // cc: item.emailCont,
+              subject: `${nome} precisamos conversar!`,
 
               html: `<!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -343,7 +344,7 @@ width: 100% !important;
 <td valign="top">
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
-<td valign="top" style="padding-top:25px;padding-right:10px;padding-bottom:25px;padding-left:10px;"><div style="font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:32px;color:#131313;line-height:32px;text-align:left;"><h1 style="font-family:Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 20px; color: #131313; font-weight: normal; line-height: 40px; mso-line-height: exactly; mso-text-raise: 10px; padding: 0; margin: 0;text-align: center;"><span class="mso-font-fix-arial"><strong>Ola ${nome}, tudo bem?!</strong></span></h1>
+<td valign="top" style="padding-top:25px;padding-right:10px;padding-bottom:25px;padding-left:10px;"><div style="font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:32px;color:#131313;line-height:32px;text-align:left;"><h1 style="font-family:Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 20px; color: #131313; font-weight: normal; line-height: 40px; mso-line-height: exactly; mso-text-raise: 10px; padding: 0; margin: 0;text-align: center;"><span class="mso-font-fix-arial"><strong>Olá ${nome}, tudo bem?!</strong></span></h1>
 </div>
 </td>
 </tr>

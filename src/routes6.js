@@ -2,13 +2,10 @@ import "dotenv/config";
 import { Router } from "express";
 import sequelize from "sequelize";
 import { Op } from "sequelize";
-import { EmailVenc } from "../biblioteca/emailVencimento.js";
-import { VencSms } from "../lib/vencimento/enviarsms.js";
+import {CentralSms} from "../lib/vencimento/centralsms.js";
 import { GetVencimento } from "../lib/vencimento/getClienteVencimento.js";
-import { GetErro } from "../lib/vencimento/geterro.js";
 import { EnviaSms } from "../lib/vencimento/sendsms.js";
 import Contador from "../model/Contador.js";
-
 import Fcweb from "../model/fcweb.js";
 import { LogErro } from "../model/logError.js";
 
@@ -64,14 +61,13 @@ router6.get("/send/msg", async (req, res) => {
 router6.get("/send/vencimento", async (req, res) => {
   try {
     const lista = await GetVencimento();
-    // const relat = await GetErro(lista);
-    // const email = await EmailVenc(lista);
-    console.log(lista);
-    res.status(200).send(lista);
+    const resp = await CentralSms(lista);
+    res.status(200).send(resp);
   } catch (error) {
     res.status(400).send(error);
   }
 });
+
 
 router6.get("/cliente-30", async (req, res) => {
   const cliente = await Fcweb.findAll({

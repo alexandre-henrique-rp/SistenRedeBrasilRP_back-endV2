@@ -12,7 +12,8 @@ export const WhatsAppSms = async (tel, msg) => {
       "Content-Type": process.env.ZAP_TYPE
     },
     data: {
-      number: 55 + tel,
+      number: "55" + tel,
+      // number: 5516988247675,
       message: msg,
       forceSend: true,
       verifyContact: false
@@ -21,11 +22,11 @@ export const WhatsAppSms = async (tel, msg) => {
   })
     .then((response) => {
       console.log(JSON.stringify(response.data));
-      return "Mensagem entregue";
+      return response.data;
     })
     .catch((error) => {
       console.log(error.response.data);
-      return "não foi possível contactar o esse cliente, tente outra forma de contato";
+      return error.response.data;
     });
   return resposta;
 };

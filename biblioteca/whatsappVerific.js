@@ -19,20 +19,12 @@ export const WhatsAppVerific = async (tel) => {
     .then((response) => {
       console.log(response.data);
       const resultado = response.data;
-      const resp =
-        resultado.status !== "VALID_WA_NUMBER"
-          ? { resultado: resultado, telefone: telefone }
-          : { resultado: resultado, telefone: '' };
-
-      return resp;
+      return resultado;
     })
     .catch(function (error) {
       console.log(error.data);
       const resultado = error.data;
-      return {
-        resultado,
-        telefone
-      };
+      return resultado;
     });
   return resposta;
 };
