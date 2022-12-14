@@ -1,25 +1,24 @@
-import 'dotenv/config';
 import { Sequelize } from 'sequelize';
 
-const DB_nome = process.env.DB_DATABASE;
-const DB_usuario = process.env.DB_USER;
-const DB_pass = process.env.DB_PASSWORD;
-const DB_dialect: any = process.env.DIALECT;
-const DB_host = process.env.DB_HOST;
-
-export const DataBese = new Sequelize(DB_nome, DB_usuario, DB_pass, {
-  dialect: DB_dialect,
-  host: DB_host,
-});
+const DataBese = new Sequelize(
+  process.env.DB_DATABASE,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql",
+  },
+);
 
 DataBese.authenticate()
   .then(() => {
     console.log(
-      '👍 👍 Successful Connection! 👍 👍',
+      '👍 👍 Conexação com o banco de dados foi estabelecida com sucesso! 👍 👍',
     );
   })
-  .catch((err: string) => {
+  .catch((err) => {
     console.error(
-      '👎👎 Connection Failure:' + err + '👎👎',
+      '👎👎 Erro: Conexação com o banco de dados não realizada:' + err + '👎👎',
     );
   });
+export default DataBese;

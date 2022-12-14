@@ -1,6 +1,6 @@
 
 import { DataTypes } from 'sequelize';
-import { DataBese } from '../db';
+import  DataBese from '../db';
 
 
 export const Fcweb: any = DataBese.define(
@@ -19,7 +19,7 @@ export const Fcweb: any = DataBese.define(
     id_boleto: DataTypes.TEXT,
     id_cancelar_bol_rem: DataTypes.TEXT,
     unidade: DataTypes.TEXT,
-    resposavel: DataTypes.TEXT,
+    responsavel: DataTypes.TEXT,
     andamento: DataTypes.TEXT,
     prioridade: DataTypes.TEXT,
     solicitacao: DataTypes.TEXT,
