@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import axios from 'axios';
 
 export const AxioGetData = async (url: string, data: any) => {

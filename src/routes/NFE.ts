@@ -6,6 +6,7 @@ const NfeRouter = express.Router();
 // nfe
 //---------------------------------------------------------------------------------------------
 NfeRouter.get('/send/nfe', NfeController.NfeAllSend);
+NfeRouter.get('/send/msg/cliente/nfe', NfeController.NfeAllSend);
 NfeRouter.get('/get/cliente/nfe', NfeController.NfeAllGet);
 
 export { NfeRouter };

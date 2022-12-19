@@ -12,9 +12,10 @@ export const GetId = async (req: Request, res: Response) => {
       },
   })
     .then((response: any) => {
+      console.log(response)
       const data = {
         id: response.id,
-        name: response.name,
+        nome: response.nome,
         cpf: response.cpf,
         razaosocial: response.razaosocial,
         Tipo_CD: response.tipocd,
