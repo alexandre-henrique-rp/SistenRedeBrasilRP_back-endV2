@@ -6,6 +6,9 @@ import { ValorCobr } from "../../../lib/cobranca/calculos/valorcobr";
 
 export const FinacCobranca = async (req: Request, res: Response) => {
   const periodo: any = new Date();
+  const date = new Date();
+  const começo = new Date(date.getFullYear(), date.getMonth() - 11, 1);
+ 
   await Fcweb.findAll({
     attributes: [
       'id',
@@ -27,17 +30,20 @@ export const FinacCobranca = async (req: Request, res: Response) => {
       'contador',
       'smspg',
     ],
+    order: [['dt_aprovacao', 'ASC']],
     where: {
       unidade: 1,
       estatos_pgto: {
-        [Op.or]: ['', 'Verificar', 'Falta pgto'],
+        [Op.ne]: 'Pago',
       },
       andamento: {
         [Op.or]: ['EMITIDO', 'APROVADO'],
       },
       dt_aprovacao: {
-        [Op.lte]: new Date(),
-        [Op.gte]: new Date(periodo - 5 * 30 * 60 * 60 * 60 * 1000),
+        [Op.gte]: começo,
+      },
+      formapgto:{
+        [Op.not]: ['BOLETO', 'PENDURA', 'BOLETO-BRA'],
       },
     },
   })

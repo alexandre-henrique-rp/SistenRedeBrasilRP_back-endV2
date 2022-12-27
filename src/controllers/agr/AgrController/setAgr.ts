@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import 'dotenv/config';
 import { Request, Response } from "express";
 import { Agr } from "../../../database/models/agr";
 import bcrypt from 'bcrypt'

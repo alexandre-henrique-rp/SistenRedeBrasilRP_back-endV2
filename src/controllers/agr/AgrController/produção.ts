@@ -35,6 +35,8 @@ export const Produção = async (req: Request, res: Response) => {
       },
       andamento: {
         [Op.or]: ['EMITIDO', 'APROVADO'],
+      },
+      formapgto: {
         [Op.not]: 'PENDURA',
       },
       responsavel: JSON.parse(nome),

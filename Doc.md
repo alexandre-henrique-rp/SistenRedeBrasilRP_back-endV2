@@ -45,6 +45,26 @@ dat de inicio: 01/11/2022
 
 ### Rotas Descripion
 
-#### AGR
+##### AGR
 
-"/producao/agr/?agr={nome do agr}&datai={data inicial de pesquisa}&dataf={data final de pesquisa}" ==> rota responsavel por trazer um resultado de pesquisa de pagamentos em aberto por AGR
+**"/producao/agr/?agr={nome do agr}&datai={data inicial de pesquisa}&dataf={data final de pesquisa}"**  
+  > _rota responsavel por trazer um resultado de pesquisa de pagamentos em aberto por AGR_
+
+
+
+##### Financeiro
+
+##### Contador
+**"/relatorio/contador"**  
+  > _rota responsavel por trazer um resultado de pesquisa de produção de contadores no mês_
+
+**"/contador/add"** => 
+  > _rota responsavel por add um novo contador_
+
+  enviou:
+  <code>{
+    nome: "string",
+    razao: "string",
+  }</code>
+
+##### AGRV

@@ -7,7 +7,7 @@ export const VerificToken = async (req: Request, res: Response) => {
   const authheader = req.headers.authorization;
   const [, token] = authheader.split(' ');
   const decoded = jwt.verify(token, process.env.SECRET) as any;
-  if (!decoded) return res.status(401).send('tokem não autorizado');
+  if (!decoded) return res.status(400).send('tokem não autorizado');
   Agr.findOne({
     attributes: ['idagr', 'nome', 'email', 'bloc_cont_obs'],
     where: {
