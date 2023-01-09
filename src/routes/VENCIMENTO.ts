@@ -17,7 +17,7 @@ VencimentoRouter.get('/cliente-10', VencController.Get10);
 VencimentoRouter.get('/cliente-5', VencController.Get5);
 VencimentoRouter.get('/cliente-1', VencController.Get1);
 VencimentoRouter.get('/cliente-now', VencController.GetNow);
-VencimentoRouter.get('/calendar2', verifyADM, VencController.Calendar2);
+VencimentoRouter.get('/calendar', verifyADM, VencController.Calendar2);
 VencimentoRouter.get('/pesqisa/getcontador', ContadorController.ContSearch);
 
 
