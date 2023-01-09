@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express, { json } from 'express';
 import cors from 'cors'
 import { AgrRouter } from './routes/AGR';
@@ -6,6 +7,7 @@ import { ContadorRouter } from './routes/CONTADOR';
 import { FinanceiroRouter } from './routes/FINANCEIRO';
 import { VencimentoRouter } from './routes/VENCIMENTO';
 import { NfeRouter } from './routes/NFE';
+import { ClienteRouter } from './routes/CLIENTE';
 
 const app = express();
 app.use(json());
@@ -17,6 +19,7 @@ app.use(ContadorRouter)
 app.use(FinanceiroRouter)
 app.use(VencimentoRouter)
 app.use(NfeRouter)
+app.use(ClienteRouter)
 
 app.listen(process.env.PORT || 3050, async function () {
   // await DataBese.sync(); // sinconizar bamco de dados

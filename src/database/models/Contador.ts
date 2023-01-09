@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import { DataBese } from '../db';
+import  DataBese  from '../db';
 
 
 export const Contador = DataBese.define(
@@ -34,6 +34,7 @@ export const Contador = DataBese.define(
     tipo_comissao: DataTypes.TEXT,
     whatsapp: DataTypes.STRING(100),
     createdAt: DataTypes.DATE,
+    status: DataTypes.INTEGER,
   },
   { freezeTableName: true },
 ); // função para conectar tebela ja criada

@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import { DataBese } from '../db';
+import  DataBese  from '../db';
 
 
 export const LogErro: any = DataBese.define(
