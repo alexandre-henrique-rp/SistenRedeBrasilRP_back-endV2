@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { Op } from "sequelize";
-import { Fcweb } from "../../../database/models/fcweb";
-import { ValorCobr } from "../../../lib/cobranca/calculos/valorcobr";
+import { Request, Response } from 'express';
+import { Op } from 'sequelize';
+import { Fcweb } from '../../../database/models/fcweb';
+import { ValorCobr } from '../../../lib/cobranca/calculos/valorcobr';
 
-
-export const FinacCobranca = async (req: Request, res: Response) => {
+export const PenduraCobranca = async (req: Request, res: Response) => {
   const periodo: any = new Date();
   const date = new Date();
   const começo = new Date(date.getFullYear(), date.getMonth() - 11, 1);
- 
+
   await Fcweb.findAll({
     attributes: [
       'id',
@@ -41,20 +40,31 @@ export const FinacCobranca = async (req: Request, res: Response) => {
       id_fcw_soluti: {
         [Op.ne]: [''],
       },
-      formapgto:{
-        [Op.not]: ['PENDURA', 'BOLETO-BRA'],
-      },
+      formapgto: 'PENDURA',
     },
   })
     .then(async (response: any[]) => {
       const valor = await ValorCobr(response);
+      const retorna = response.map((r) =>{
+        return{
+          "id": r.id,
+          "nome": r.nome,
+          "tipocd": r.tipocd,
+          "telefone": r.telefone,
+          "cnpj": r.cnpj,
+          "valorcd": r.valorcd,
+          "contador": r.contador,
+          "estatos_pgto": r.estatos_pgto,
+          "andamento": r.andamento,
+        }
+      })
       return res.status(200).json({
         quant: response.length,
         valor: valor.toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         }),
-        data: response,
+        data: retorna,
       });
     })
     .catch((err: any) => {
@@ -63,4 +73,4 @@ export const FinacCobranca = async (req: Request, res: Response) => {
         erro: err,
       });
     });
-}
+};

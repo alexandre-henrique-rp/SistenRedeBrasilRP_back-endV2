@@ -7,6 +7,7 @@ const ContadorRouter = express.Router();
 // ---------------------------------------------------------------------------
 ContadorRouter.get('/relatorio/contador', ContadorController.ContRelat);
 ContadorRouter.get('/pesqisa/contador', ContadorController.ContList);
+ContadorRouter.get('/pesqisa/erp', ContadorController.ErpList);
 ContadorRouter.get(
   '/pesqisa/cliente/:contador',
   ContadorController.ContListClient,

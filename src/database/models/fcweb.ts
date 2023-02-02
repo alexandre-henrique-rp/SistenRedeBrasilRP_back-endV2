@@ -13,7 +13,6 @@ export const Fcweb: any = DataBese.define(
       autoIncrement: true,
       allowNull: false,
     },
-
     s_alerta: DataTypes.TEXT,
     referencia: DataTypes.TEXT,
     id_boleto: DataTypes.TEXT,
@@ -73,6 +72,13 @@ export const Fcweb: any = DataBese.define(
     custocd: DataTypes.TEXT,
     createdAt: DataTypes.DATE,
     smspg: DataTypes.INTEGER,
+    txid : DataTypes.STRING(100),
+    qrcodeLink : DataTypes.TEXT,
+    CreatePixDate: DataTypes.DATE ,
+    ConclusionPixDate: DataTypes.DATE,
+    telPix:DataTypes.STRING(100),
+    emailPix:DataTypes.STRING(100),
+    imgCode:DataTypes.TEXT,
   },
   { freezeTableName: true },
 ); // função para conectar tebela ja criada

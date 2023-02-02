@@ -3,16 +3,8 @@ import { Op } from 'sequelize';
 import { Fcweb } from '../../../database/models/fcweb';
 
 export const Get = async (req: Request, res: Response) => {
-  const date2 = new Date();
-  date2.setMonth(date2.getMonth() - 10);
-  const day1 = date2.getDay() < 10 ? '0' + date2.getDay() : date2.getDay();
-  const month1 =
-    date2.getMonth() < 10 ? '0' + date2.getMonth() : date2.getMonth();
-  const year1 = date2.getFullYear();
-  const dateString1 = `${day1}-${month1}-${year1} 03:00:00`;
-  console.log(dateString1);
-
-  const firstDay = dateString1;
+  const date = new Date();
+  const firstDay = new Date(date.getFullYear(), date.getMonth() - 11, 1);
   await Fcweb.findAll({
     attributes: [
       'id',
@@ -47,6 +39,7 @@ export const Get = async (req: Request, res: Response) => {
       'cidade',
       'vctoCD',
       'dt_aprovacao',
+      'id_fcw_soluti',
       'validacao',
       'dt_agenda',
       'hr_agenda',
@@ -54,11 +47,14 @@ export const Get = async (req: Request, res: Response) => {
     ],
     order: [['id', 'DESC']],
     where: {
-      referencia: {
+      dt_aprovacao: {
         [Op.gte]: firstDay,
       },
+      id_fcw_soluti: {
+        [Op.ne]: [''],
+      },
     },
-    limit: 8000,
+    
   })
     .then((response: any) => {
       console.log(response.length);

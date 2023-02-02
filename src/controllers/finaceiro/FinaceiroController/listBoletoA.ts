@@ -33,14 +33,18 @@ export const ListBoletoAberto = async (req: Request, res: Response) => {
       'dt_aprovacao',
       'validacao',
       'vectoboleto',
+      'id_fcw_soluti',
     ],
-    order: [['id', 'DESC']],
+    order: [['dt_aprovacao', 'ASC']],
     where: {
       andamento: {
         [Op.or]: ['EMITIDO', 'APROVADO'],
       },
       formapgto: {
-        [Op.or]: ['BOLETO', 'BOLETO-BRA'],
+        [Op.or]: ['BOLETO-BRA'],
+      },
+      id_fcw_soluti: {
+        [Op.ne]: [''],
       },
       dt_aprovacao: {
         [Op.gte]: firstDay,
@@ -54,7 +58,7 @@ export const ListBoletoAberto = async (req: Request, res: Response) => {
     },
   })
     .then(async (response: any) => {
-      console.log(response.length);
+      console.log(response);
       const total = response
         .map((v: { valorcd: string }) =>
           v.valorcd === '' ? parseInt('0') : parseInt(v.valorcd),

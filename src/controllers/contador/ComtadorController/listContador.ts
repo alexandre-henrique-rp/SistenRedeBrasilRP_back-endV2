@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { Op } from 'sequelize';
 import { Contador } from '../../../database/models/Contador';
 
 

@@ -21,7 +21,12 @@ export const GetId = async (req: Request, res: Response) => {
         Tipo_CD: response.tipocd,
         telefone: response.telefone,
         valor: response.valorcd,
-        email: response.email
+        email: response.email,
+        atendimento: response.referencia,
+        contador: response.contador,
+        dataVideo: response.dt_agenda,
+        horaVideo: response.hr_agenda,
+        historico: response.historico,
       }
       res.status(200).json(data);
     })

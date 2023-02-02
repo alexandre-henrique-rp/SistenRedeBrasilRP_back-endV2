@@ -1,16 +1,15 @@
 import { DataTypes } from 'sequelize';
-import { DataBese } from '../db';
+import DataBese from '../db';
 
-
-export const Erp: any = DataBese.define(
-  "erp",
+export const ERP = DataBese.define(
+  'erp',
   {
     //nome da tabela a ser conectada
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      allowNull: false
+      allowNull: false,
     },
     nome: DataTypes.TEXT,
     fantasia: DataTypes.TEXT,
@@ -33,12 +32,11 @@ export const Erp: any = DataBese.define(
     updatedAt: DataTypes.DATE,
     cnpj: DataTypes.TEXT,
     authorization: DataTypes.TEXT,
-    repasse:DataTypes.INTEGER,
-    unidade:DataTypes.TEXT
+    repasse: DataTypes.INTEGER,
+    unidade: DataTypes.TEXT,
   },
-  { freezeTableName: true }
+  { freezeTableName: true },
 ); // função para conectar tebela ja criada
 
 //criar ou sicronizar a tabela
 // ERP.sync();
-

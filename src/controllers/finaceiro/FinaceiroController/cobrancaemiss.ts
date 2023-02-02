@@ -30,6 +30,9 @@ export const CobrancaEmiss = async (req: Request, res: Response) => {
       andamento: {
         [Op.or]: ['EMITIDO', 'APROVADO'],
       },
+      id_fcw_soluti: {
+        [Op.ne]: [''],
+      },
       dt_aprovacao: {
         [Op.gte]: firstDay,
         [Op.lte]: lastDay,

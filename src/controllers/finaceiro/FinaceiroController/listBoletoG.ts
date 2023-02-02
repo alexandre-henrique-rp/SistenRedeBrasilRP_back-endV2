@@ -25,21 +25,26 @@ export const ListBoletoGerado = async (req: Request, res: Response) => {
       'telefone',
       'email',
       'dtnascimento',
+      'id_fcw_soluti',
       'vctoCD',
       'dt_aprovacao',
       'validacao',
+      'vectoboleto',
     ],
-    order: [['id', 'DESC']],
+    order: [['dt_aprovacao', 'ASC']],
     where: {
       andamento: {
         [Op.or]: ['EMITIDO', 'APROVADO'],
       },
       formapgto: 'BOLETO',
-      dt_aprovacao: {
-        [Op.gte]: firstDay,
+      id_fcw_soluti: {
+        [Op.ne]: [''],
+      },
+      estatos_pgto: {
+        [Op.ne]: 'Pago',
       },
     },
-    // limit: 1000,
+    
   })
     .then(async (response: any) => {
       console.log(response.length);
@@ -59,6 +64,9 @@ export const ListBoletoGerado = async (req: Request, res: Response) => {
           telefone: item.telefone,
           valor: item.valor,
           contabilidade: item.contabilidade,
+          criado: item.criado,
+          Tcriacao: item.Tcriacao,
+          vecimento: item.vecimento,
           status: 'Ainda não Venceu',
         };
       });

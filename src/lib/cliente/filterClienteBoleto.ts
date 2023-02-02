@@ -1,5 +1,5 @@
 export const ClienteBoleto = async (lista: any) => {
-  // console.log(lista)
+
   const ListaCliente = lista.map(
     (item: {
       id: number;
