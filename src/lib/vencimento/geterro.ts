@@ -11,6 +11,7 @@ export const GetErro = async (lista: any[]) => {
   const resp = lista.forEach(function (item, index) {
     setTimeout(async function () {
       const verifyContact = await WhatsAppVerific(item.telefone);
+      console.log("🚀 ~ file: geterro.ts:14 ~ verifyContact:", verifyContact)
       const lista = {
         id: item.id,
         titulo: item.titulo,
@@ -24,6 +25,7 @@ export const GetErro = async (lista: any[]) => {
         email: item.email,
         sms: item.sms
       };
+      
       if (qut === index + 1) {
         await RegErro(erros);
         await VencSms(sucesso);

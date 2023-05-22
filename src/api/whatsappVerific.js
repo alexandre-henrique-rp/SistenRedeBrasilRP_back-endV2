@@ -17,11 +17,13 @@ export const WhatsAppVerific = async (tel) => {
     redirect: "follow"
   })
     .then((response) => {
+      console.log("🚀 ~ file: whatsappVerific.js:20 ~ .then ~ response:", response)
       console.log(response.data);
       const resultado = response.data;
       return resultado;
     })
     .catch(function (error) {
+      console.log("🚀 ~ file: whatsappVerific.js:26 ~ WhatsAppVerific ~ error:", error)
       console.log(error.data);
       const resultado = error.data;
       return resultado;
