@@ -5,7 +5,7 @@ import axios from "axios";
 export const WhatsAppVerific = async (tel) => {
   const telefone = tel;
   const url =
-    "https://api.zapstar.com.br/core/v2/api/wa-number-check/55" + telefone;
+    "https://api.inovstar.com/core/v2/api/wa-number-check/55" + telefone;
 
   const resposta = await axios({
     method: "POST",

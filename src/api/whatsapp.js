@@ -2,7 +2,7 @@ import 'dotenv/config';
 import axios from 'axios';
 
 export const WhatsAppSms = async (tel, msg) => {
-  const url = 'https://api.zapstar.com.br/core/v2/api/chats/send-text';
+  const url = 'https://api.inovstar.com/core/v2/api/chats/send-text';
 
   await axios({
     method: 'POST',
