@@ -1,3 +1,4 @@
+import { EmailVenc } from "../../api/emailVencimento";
 import { WhatsAppVerific } from "../../api/whatsappVerific";
 import { VencSms } from "./enviarsms";
 import { RegErro } from "./regerro";
@@ -27,16 +28,19 @@ export const GetErro = async (lista: any[]) => {
       };
       
       if (qut === index + 1) {
+        console.log('foi')
         await RegErro(erros);
-        await VencSms(sucesso);
+        // await VencSms(sucesso);
+        await EmailVenc(erros)
       }
       if (verifyContact.status === "INVALID_WA_NUMBER") {
         erros.push(lista);
-      }
-      if (verifyContact.status !== "INVALID_WA_NUMBER") {
+      } else if (verifyContact.status !== "INVALID_WA_NUMBER") {
         sucesso.push(lista);
+      } else {
+        erros.push(lista);
       };
-    }, index * 1000);
+    }, index * 700);
   });
   return "mensagen enviada";
 };

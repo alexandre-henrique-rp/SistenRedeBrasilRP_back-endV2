@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import axios from 'axios';
 
-export const WhatsAppSms = async (tel, msg) => {
+export const WhatsAppSms = async (tel: string, msg: string) => {
   const url = 'https://api.inovstar.com/core/v2/api/chats/send-text';
 
   await axios({
@@ -17,7 +17,6 @@ export const WhatsAppSms = async (tel, msg) => {
       forceSend: true,
       verifyContact: false,
     },
-    redirect: 'follow',
   })
     .then((response) => {
       console.log(JSON.stringify(response.data));
